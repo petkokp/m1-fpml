@@ -1,5 +1,5 @@
-# Foundational Principles of Machine Learning
+# Fundamental Principles of Machine Learning
 
-Gitlab for the course Foundational Principles of Machine Learning (TC0) in the CS Masters (M1 year), in the track *Artificial Intelligence* of the Paris Saclay University
+Gitlab for the course Fundamental Principles of Machine Learning (FPML or TC0) in the CS Masters (M1 year), in the track *Artificial Intelligence* of the Paris Saclay University
 
 contents: to come.
