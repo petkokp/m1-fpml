@@ -1,0 +1,3 @@
+In the exam of 2020, exercises 1 and 4 account for lots of points (6 and 5).
+
+They will be reduced in importance in 2021, in particulat, exercise 4, "Identifying the task, the appropriate classes of algos, and data structures/features" may be suppressed entirely. the exam will then be simply shorter.
