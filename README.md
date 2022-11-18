@@ -23,7 +23,7 @@ https://ecampus.paris-saclay.fr/course/view.php?id=92339#section-7
 During the first session, we did (i give the paths to files from the gitlab):
 
 - read together "the rules": 0-organization-rules-intro/0-organization-rules.pdf
-- The main Lecture material was: 1-Regressions: lecture1-ML-vocab+LinReg.pdf
+- The main Lecture material was: 1-Regressions: lecture1-ML-vocab+LinReg.pdf (we reached page 10, pages 11 and 12 are addressed in the tutorial, so it's ok, the rest will be seen later)
 - Still lecture material: 1-GradientDescent/Gradient Descent-demo-compute2gradients.ipynb  : I explained in detail GD and its pitfalls, in particular in 1D. We did not compute the 2D case but ou can do it at home.
 
 In tutorial, we did (may depend slightly on the group you are in):
