@@ -33,3 +33,24 @@ In tutorial, we did (may depend slightly on the group you are in):
 
 A few students did also attack the TP1.3-LinReg-3rd-order-Polynomial.ipynb
 
+## session 2 -
+
+Lecture: we covered 2-Perceptron.pdf until page 16 included.
+
+Tutorial:
+- we covered pen-and-paer exercise 2.1.1, Perceptron – classics (from TD-Classifications-subject.pdf).
+- we coded a good piece of what is asked in TP2.1-Perceptron.ipynb, i.e. up to 2.1 for everyone, and a number of people also so that "it works" on MNIST, i.e completed the part "2.2 Testing on more realistic data: MNIST (restricted to 2 classes)". One needs to encode the y's in {-1,+1}. Note that the dataset is a bit too small and here we did not split in train/test/validation, we can overfit.
+
+We did not touch TP2.2-MultiClass-Classification.ipynb
+
+## Corrections to session 2 (and before) are online !!
+
+## session 3 - tentative plan
+
+tentative plan:
+
+Lecture: overfitting + regularizations
+
+Tutorial:
+- Exercices 3.1 to, 3.3, i.e., explicitly: 3.1.a, 3.1.b, 3.2, then 3.3.a, 3.3.b (all this is pen and paper)
+- Then question 3.3.c is actually a pointer to 3.3.c-TP-toy example Lasso.ipynb
