@@ -15,6 +15,8 @@ https://ecampus.paris-saclay.fr/course/view.php?id=92339#section-7
 
 - To catch up on Friday 11th nov, we can try to find a date that suits everyone, here: https://www.when2meet.com/?17729512-WxKDI
 
+-> ok most likely we will not catch up this class since not everyone can attend. But we could do a Q&A session on wednesday 7th, morning, starting with a bit of lecture material about feature maps, and then taking questions/making additional exercises (in a way that if you do not attend, you are not negatively impacted in terms of exam preparation).
+
 
 # What we did in class
 
