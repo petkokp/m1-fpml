@@ -52,6 +52,7 @@ We did not touch TP2.2-MultiClass-Classification.ipynb
 tentative plan:
 
 Lecture: overfitting + regularizations
+- note - we did not do any Bayesian calculus. We introduced Lasso though.
 
 Tutorial:
 - Exercices 3.1 to, 3.3, i.e., explicitly: 3.1.a, 3.1.b, 3.2, then 3.3.a, 3.3.b (all this is pen and paper)
