@@ -35,7 +35,7 @@ In tutorial, we did (may depend slightly on the group you are in):
 
 A few students did also attack the TP1.3-LinReg-3rd-order-Polynomial.ipynb
 
-## session 2 -
+## session 2 - Perceptron
 
 Lecture: we covered 2-Perceptron.pdf until page 16 included.
 
@@ -45,15 +45,35 @@ Tutorial:
 
 We did not touch TP2.2-MultiClass-Classification.ipynb
 
-## Corrections to session 2 (and before) are online !!
 
-## session 3 - tentative plan
-
-tentative plan:
+## session 3 - overfitting, regularizations
 
 Lecture: overfitting + regularizations
-- note - we did not do any Bayesian calculus. We introduced Lasso though.
+- overfitting: we did it "inverted class" mode, and then normal (fast) mode.
+- regularization: we covered generalties, Ridge in detail, and the Lasso, a bit.
+- we did **not** do any Bayesian calculus. It'll be for next time.
 
 Tutorial:
 - Exercices 3.1 to, 3.3, i.e., explicitly: 3.1.a, 3.1.b, 3.2, then 3.3.a, 3.3.b (all this is pen and paper)
 - Then question 3.3.c is actually a pointer to 3.3.c-TP-toy example Lasso.ipynb
+- we did not do question 5 of 3.3.c-TP-toy example Lasso.ipynb, which is for next time
+
+
+### Corrections to session 3 (and before) are online !!
+
+
+
+## session 4 - tentative outline
+
+tentative outline:
+
+Lecture:
+- MAP (Maximum A Posteriori), in general (for any statistical inference)
+- Ridge Regression interpreted as a prior on weights
+- Elastic Net, Graphical Models : 2 words
+- feature maps, if time allows
+
+Tutorial:
+- from TD-regularizations.pdf, 3.4.b Maximum A Posteriori (in general) and 3.5.b Maximum A Posteriori (for regularization) as well (the (a)'s should be covered during the Lecture)
+- TP5.1-coding your own Lasso-subject.ipynb -> code it ! Here we use Objected Oriented Programming, i.e. nice lcasses in numpy, sklearn-style
+
