@@ -6,16 +6,24 @@ The e-campus address is (for the quizz):
 
 https://ecampus.paris-saclay.fr/course/view.php?id=92339#section-7
 
+
+# Homework
+
+I confirm that the homework subject is TP2.2., TP2.2-MultiClass-Classification.ipynb
+Deadline for submission is January 15th, 22h00, as a zip file of your .ipynb (+scans of your notes) to Manon Verbockhaven <manon.verbockhaven@inria.fr>.
+If you submit earlier than dec. 5th, and ask her nicely, she may have time to give you "feedback" (in the form of your grade + a short comment on how you did) before the exam (which takes place on Dec. 16th).
+
+
 # IMPORTANT: PRE-REQUISITES !
 
 **PRE1 and PRE2 as prerequisites, and PRE4 is strongly recommended**. Note that **PRE1 and PRE2 are mandatory, i.e. you must attend them to be allowed to follow TC0/FPML**, except if you can argue that you are already very fluent in statistics (PRE1) and linear algebra (PRE2) (in that case, e-mail me).
 **This class** (or an equivalent) **is a prerequisite for almost all other [AI] classes**.
 
-# Catch up for Nov 11th missed class
+# Dec 7th class (catch up to Nov 11th)
 
-- To catch up on Friday 11th nov, we can try to find a date that suits everyone, here: https://www.when2meet.com/?17729512-WxKDI
-
--> ok most likely we will not catch up this class since not everyone can attend. But we could do a Q&A session on wednesday 7th, morning, starting with a bit of lecture material about feature maps, and then taking questions/making additional exercises (in a way that if you do not attend, you are not negatively impacted in terms of exam preparation).
+Catch up class: there will be None, because we could not find a single date that suits everyone.
+But we will meet, for those who want, on Dec 7th at 10am in PUIO (I'll book a room) for Q&A session, doing exercises, etc (stuff not mandatory for the exam, but which may help those who need).
+I made a poll to know how many want to attend this (if 0, I won't have to come just for this..): it's called "Attendance for Dec 7th" (on ecampus) https://ecampus.paris-saclay.fr/mod/choice/view.php?id=1051905
 
 
 # What we did in class
