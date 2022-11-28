@@ -13,6 +13,12 @@ I confirm that the homework subject is TP2.2., TP2.2-MultiClass-Classification.i
 Deadline for submission is January 15th, 22h00, as a zip file of your .ipynb (+scans of your notes) to Manon Verbockhaven <manon.verbockhaven@inria.fr>.
 If you submit earlier than dec. 5th, and ask her nicely, she may have time to give you "feedback" (in the form of your grade + a short comment on how you did) before the exam (which takes place on Dec. 16th).
 
+Q&A:
+- you do not need to answer using LaTeX. You can also just write clearly on a piece of paper, scan it, compress the scan, and send as email (in a zip or whatever). Of course, LaTeX in ipynb or LaTeX as separate pdf is ok as well !
+- I do not ask for performance. Just showing your algo does not break, and converges to something (accuracy should be larger than random guessing of course), is enough. This is a penand-paper/raw-coding oriented homewor, not one about optimizing a model.
+
+
+
 
 # IMPORTANT: PRE-REQUISITES !
 
