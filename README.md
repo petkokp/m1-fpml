@@ -73,11 +73,9 @@ Tutorial:
 - we did not do question 5 of 3.3.c-TP-toy example Lasso.ipynb, which is for next time
 
 
-### Corrections to session 3 (and before) are online !!
 
 
-
-## session 4 - tentative outline
+## session 4 - Maximum A Posteriori (MAP), a Multi-Class framework (OVR), Feature Maps (quickly)
 
 tentative outline:
 
@@ -91,5 +89,11 @@ And, taking from the folder "optional material from previous or missed sessions"
 
 Tutorial:
 - from TD-regularizations.pdf, 3.4.a, 3.4.b Maximum A Posteriori (in general) and 3.5.b Maximum A Posteriori (for regularization) as well (the (3.5.a) was covered during the Lecture)
-- TP5.1-coding your own Lasso-subject.ipynb -> code it ! Here we use Objected Oriented Programming, i.e. nice lcasses in numpy, sklearn-style
+- (we did not have the tie for this) TP5.1-coding your own Lasso-subject.ipynb -> code it ! Here we use Objected Oriented Programming, i.e. nice lcasses in numpy, sklearn-style
 
+
+### Solutions to exercices of session 4 (and before) are online !!
+
+Note: I will imprive the solution to the 3.5.b, which currently is not that good/clear.
+
+I will maybe also improve the solution to 3.4.b, which could be improved.
