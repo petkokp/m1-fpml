@@ -90,6 +90,6 @@ And, taking from the folder "optional material from previous or missed sessions"
 - feature maps, if time allows (`3-2FeatureMaps.pdf`)
 
 Tutorial:
-- from TD-regularizations.pdf, 3.4.b Maximum A Posteriori (in general) and 3.5.b Maximum A Posteriori (for regularization) as well (the (a)'s should be covered during the Lecture)
+- from TD-regularizations.pdf, 3.4.a, 3.4.b Maximum A Posteriori (in general) and 3.5.b Maximum A Posteriori (for regularization) as well (the (3.5.a) was covered during the Lecture)
 - TP5.1-coding your own Lasso-subject.ipynb -> code it ! Here we use Objected Oriented Programming, i.e. nice lcasses in numpy, sklearn-style
 
