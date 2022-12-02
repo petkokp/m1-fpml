@@ -83,9 +83,11 @@ tentative outline:
 
 Lecture:
 - MAP (Maximum A Posteriori), in general (for any statistical inference)
-- Ridge Regression interpreted as a prior on weights
+- Ridge Regression interpreted as a prior on weights (MAP !)
 - Elastic Net, Graphical Models : 2 words
-- feature maps, if time allows
+And, taking from the folder "optional material from previous or missed sessions":
+- multi-class classification: complete the last bits of Lecture1/2, that we forgot to cover ! (`2-Multi-class-classification-end.pdf`)
+- feature maps, if time allows (`3-2FeatureMaps.pdf`)
 
 Tutorial:
 - from TD-regularizations.pdf, 3.4.b Maximum A Posteriori (in general) and 3.5.b Maximum A Posteriori (for regularization) as well (the (a)'s should be covered during the Lecture)
