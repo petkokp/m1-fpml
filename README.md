@@ -75,9 +75,8 @@ Tutorial:
 
 
 
-## session 4 - Maximum A Posteriori (MAP), a Multi-Class framework (OVR), Feature Maps (quickly)
+## session 5 - Maximum A Posteriori (MAP), a Multi-Class framework (OVR), Feature Maps (quickly)
 
-tentative outline:
 
 Lecture:
 - MAP (Maximum A Posteriori), in general (for any statistical inference)
@@ -91,9 +90,22 @@ Tutorial:
 - from TD-regularizations.pdf, 3.4.a, 3.4.b Maximum A Posteriori (in general) and 3.5.b Maximum A Posteriori (for regularization) as well (the (3.5.a) was covered during the Lecture)
 - (we did not have the tie for this) TP5.1-coding your own Lasso-subject.ipynb -> code it ! Here we use Objected Oriented Programming, i.e. nice lcasses in numpy, sklearn-style
 
+## session 6
 
-### Solutions to exercices of session 4 (and before) are online !!
+Lecture:
+- PCA
+- Kernels
+- SVM
 
-Note: I will imprive the solution to the 3.5.b, which currently is not that good/clear.
 
-I will maybe also improve the solution to 3.4.b, which could be improved.
+Tutorial:
+- some attacked the PCA (see 6.3-PCA-from-scratch+overfitting-correction.ipynb) first. Especially the part where you re-code PCA just from numpy is great to do by yourself. Try it if you haven't ! (it's good training for the exam)
+- some started with the SVM part (6.2-SVM-showcase+exercises+corrections.ipynb), which has not a lot of hard coding to it, but allows to see SVMs and Kernels at work.
+
+### Solutions to exercices of session 6 (and all of them) are online !!
+
+I did improve the solution to 3.4.b.
+
+Note: I will improve the solution to the 3.5.b, which currently is not that good/clear.
+
+
