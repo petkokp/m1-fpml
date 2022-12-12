@@ -114,10 +114,12 @@ Note: I will improve the solution to the 3.5.b, which currently is not that good
 Several informations:
 - corrections to TP6 are online
 - improved corrections to TD5 are online too (exercise 3.4.b and 3.5.b, i.e the ones related to Laplace priors)
+
 Also:
 - quiz 5 is online, you'll be able to take it on Wednesday, from noon to 15h30pm (25 min quiz, 16 questions). It does count in the grade. Then you'll be able to practice more with it as you wish (after 16h30)
 - Homework: (see previous messages) the knowledgeable platform will be available tonight ! Link is: https://nowledgeable.com/invitation/student/ada30c2cb5bf4e179791019ac4fb23b8 (you will need to create an account, it takes 2 minutes. Please try to use your @universite-paris-saclay.fr email)  The link works now, but some bugs may be corrected today. If you have bugs after this evening, you can report them to us, and especially to Laurent Cetinsoy:  https://discord.gg/cmUxK8Nw (discord preferred, otherwise, email to laurent.cetinsoy@nowledgeable.com )
 - exam rules: consult 0-organization-rules.pdf and the annals from last years, esp. the 2021 one. The exam will be in B108, 13h30->16h30 (3h).
+
 Also:
 - for running codes on GPU: there are Nvidia GPUs in D104. You can try getting the proper (pytorch-able) env by doing:
 cd /opt/anaconda3/bin
