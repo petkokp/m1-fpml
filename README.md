@@ -7,7 +7,14 @@ The e-campus address is (for the quizz):
 https://ecampus.paris-saclay.fr/course/view.php?id=92339#section-7
 
 
-# Homework
+# Hint from a student from previous year:
+"This class is one of the basics (with Applied Stats for instance) that really teach you what you will need later." So, spending time studying this class is a good investment for later: either you study now and do good at the exam, or you'll have to study the same stuff later in the year for the following classes.
+
+"study regularly" -> very good idea.
+
+# Homeworks
+
+To force you to work regularly, I announce that all TD need to be prepared beforehand. We will select one person at random and send them to the blackboard, and they will be graded.
 
 I confirm that the homework subject is TP2.2., TP2.2-MultiClass-Classification.ipynb
 Deadline for submission is January 15th, 22h00, as a zip file of your .ipynb (+scans of your notes) to Manon Verbockhaven <manon.verbockhaven@inria.fr>.
