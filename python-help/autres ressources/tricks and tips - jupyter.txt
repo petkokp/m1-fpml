@@ -1,0 +1,35 @@
+how to make sure jupyter's announced kernels correctly map to you correct python install
+
+check out what's up with:
+$ jupyter  kernelspec list
+    Available kernels:
+      python3    /home/flandes/.local/share/jupyter/kernels/python3
+      python2    /home/flandes/miniconda2/share/jupyter/kernels/python2
+
+$ cat ~/.local/share/jupyter/kernels/python3/kernel.json
+was reading like this:
+    {
+     "argv": [
+      "python",
+      "-m",
+      "ipykernel_launcher",
+      "-f",
+      "{connection_file}"
+     ],
+     "display_name": "Python 3",
+     "language": "python"
+    }
+But should read like this:
+{
+ "argv": [
+  "python3",
+  "-m",
+  "ipykernel_launcher",
+  "-f",
+  "{connection_file}"
+ ],
+ "display_name": "Python 3",
+ "language": "python"
+}
+   
+Or vice versa (if you want to run python2 and note python3), you may epxlicitly write
