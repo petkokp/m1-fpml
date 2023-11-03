@@ -7,6 +7,10 @@ The e-campus address is (for the quizz):
 https://ecampus.paris-saclay.fr/course/view.php?id=115777#section-7
 
 
+Uncomfortable with numpy ? Try these exercises:
+https://www.machinelearningplus.com/python/101-numpy-exercises-python/
+
+
 # Hint from a student from previous year:
 "This class is one of the basics (with Applied Stats for instance) that really teach you what you will need later." So, spending time studying this class is a good investment for later: either you study now and do good at the exam, or you'll have to study the same stuff later in the year for the following classes.
 
