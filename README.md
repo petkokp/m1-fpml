@@ -4,7 +4,7 @@ Gitlab for the course Fundamental Principles of Machine Learning (FPML or TC0) i
 
 The e-campus address is (for the quizz):
 
-https://ecampus.paris-saclay.fr/course/view.php?id=92339#section-7
+https://ecampus.paris-saclay.fr/course/view.php?id=115777#section-7
 
 
 # Hint from a student from previous year:
