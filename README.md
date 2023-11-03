@@ -8,6 +8,7 @@ https://ecampus.paris-saclay.fr/course/view.php?id=115777#section-7
 
 
 Uncomfortable with numpy ? Try these exercises:
+
 https://www.machinelearningplus.com/python/101-numpy-exercises-python/
 
 
@@ -22,31 +23,29 @@ https://www.machinelearningplus.com/python/101-numpy-exercises-python/
 **PRE1 and PRE2 as prerequisites, and PRE4 is strongly recommended**. Note that **PRE1 and PRE2 are mandatory, i.e. you must attend them to be allowed to follow TC0/FPML**, except if you can argue that you are already very fluent in statistics (PRE1) and linear algebra (PRE2) (in that case, e-mail me).
 **This class** (or an equivalent) **is a prerequisite for almost all other [AI] classes**.
 
-# Dec 7th class (catch up to Nov 11th)
-
-Catch up class: there will be None, because we could not find a single date that suits everyone.
-But we will meet, for those who want, on Dec 7th at 10am in PUIO (I'll book a room) for Q&A session, doing exercises, etc (stuff not mandatory for the exam, but which may help those who need).
-I made a poll to know how many want to attend this (if 0, I won't have to come just for this..): it's called "Attendance for Dec 7th" (on ecampus) https://ecampus.paris-saclay.fr/mod/choice/view.php?id=1051905
-
-
 # What we did in class
 
-## session 1 - GD+Linear Regression (+organizational stuff)
+## session 1 (2023) - GD+Linear Regression (+organizational stuff)
 
 During the first session, we did (i give the paths to files from the gitlab):
 
 - read together "the rules": 0-organization-rules-intro/0-organization-rules.pdf
-- The main Lecture material was: 1-Regressions: lecture1-ML-vocab+LinReg.pdf (we reached page 10, pages 11 and 12 are addressed in the tutorial, so it's ok, the rest will be seen later)
-- Still lecture material: 1-GradientDescent/Gradient Descent-demo-compute2gradients.ipynb  : I explained in detail GD and its pitfalls, in particular in 1D. We did not compute the 2D case but ou can do it at home.
+- The main Lecture material was: 1-Regressions: lecture1-ML-vocab+LinReg.pdf (all of it)
+- Still lecture material: 1-GradientDescent/Gradient Descent-demo-compute2gradients.ipynb  : I parsed it very quickly.
 
 In tutorial, we did (may depend slightly on the group you are in):
 
 - 1-Regressions: TD-Regressions.pdf -> we did the 1.1.1, 1.1.2, maybe the 1.1.3 (it's not very different from those before if you understand how to vectorize everything),
 - in terms of notebooks, you filled the TP1.1-LinearRegression-GradientDescent.ipynb (either skipping the naive version and going directly for trick of the ones, or not), some people did also the TP1.2-LinReg-d-dimensional.ipynb (which is very similar to TP1.1)
 
-A few students did also attack the TP1.3-LinReg-3rd-order-Polynomial.ipynb
+- NOTE: sorry I did not introduce the train/test split in the Lecture, while it's mentionned in the TP (tutorials). This will be explained in depth later during the lecture.
 
-## session 2 - Perceptron
+
+----------------
+
+# Previous year's sechedule
+
+## session 2 (2022) - Perceptron
 
 Lecture: we covered 2-Perceptron.pdf until page 16 included.
 
