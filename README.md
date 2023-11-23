@@ -70,8 +70,7 @@ Tutorial:
 
 
 
-
-## session 5 - Maximum A Posteriori (MAP), a Multi-Class framework (OVR), Feature Maps (quickly)
+## session 4 - Maximum A Posteriori (MAP) and its link to regularization - a Multi-Class framework (OVR)
 
 
 Lecture:
@@ -80,11 +79,23 @@ Lecture:
 - Elastic Net, Graphical Models : 2 words
 And, taking from the folder "optional material from previous or missed sessions":
 - multi-class classification: complete the last bits of Lecture1/2, that we forgot to cover ! (`2-Multi-class-classification-end.pdf`)
-- feature maps, if time allows (`3-2FeatureMaps.pdf`)
 
 Tutorial:
 - from TD-regularizations.pdf, 3.4.a, 3.4.b Maximum A Posteriori (in general) and 3.5.b Maximum A Posteriori (for regularization) as well (the (3.5.a) was covered during the Lecture)
 - (we did not have the tie for this) TP5.1-coding your own Lasso-subject.ipynb -> code it ! Here we use Objected Oriented Programming, i.e. nice lcasses in numpy, sklearn-style
+
+## session 5 - dimensional reduction (PCA) or expansion (feature maps)
+
+Lecture:
+- PCA from scratch + what PCA is about
+- feature maps (`3-2FeatureMaps.pdf`)
+- catch up on multi-class classification, if not done already
+
+
+Tutorial:
+- feature maps: playing around
+- experiment with the regularization notebooks (from session 3)
+- bonus: double descent?
 
 ## session 6
 
