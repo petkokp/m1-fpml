@@ -1,0 +1,833 @@
+\documentclass[french,twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath,mathtools}
+\usepackage[shortlabels]{enumitem}
+\usepackage{anysize}
+\usepackage{hyperref}
+\usepackage{Raccourci}
+\usepackage{cancel}
+\usepackage{url}
+%\usepackage{geometry}
+%\geometry{top=1.5cm,bottom=2cm,left=2cm,right=2cm}
+%\geometry{top=1.5cm,bottom=2cm,left=1.5cm,right=5.5cm}
+%\marginsize{1.5cm}{2.cm}{0.5cm}{0.3cm}
+\usepackage[top=3cm, bottom=2cm, outer=2.5cm, inner=1.5cm]{geometry}
+%\usepackage[top=1.5cm, bottom=2cm, outer=1cm, inner=2.1cm, headsep=14pt]{geometry}
+
+%\usepackage{layout}
+%\layout
+%\usepackage{layouts}% http://ctan.org/pkg/layouts
+%\pagevalues
+%\setlength{\oddsidemargin}{40pt}
+%\setlength{\evensidemargin}{40pt}
+
+\usepackage{bbold}
+\usepackage{graphicx}
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\usepackage{booktabs}
+
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
+
+
+%\newcommand{\moy}[1]{\left\langle  #1 \right\rangle }
+\newcommand{\sect}[1]{sec.~\ref{sec:#1}}
+\newcommand{\fig}[1]{fig.~\ref{fig:#1}}
+\newcommand{\cad}{\text{c'est-à-dire} }
+
+
+
+\newcommand{\diagentry}[1]{\mathmakebox[1.8em]{#1}}
+\newcommand{\xddots}{%
+  \raise 4pt \hbox {.}
+  \mkern 6mu
+  \raise 1pt \hbox {.}
+  \mkern 6mu
+  \raise -2pt \hbox {.}
+}
+
+\newcommand{\tb}[1]{
+    \left(
+    \begin{array}[c]{c}
+        #1
+    \end{array}
+    \right)
+}
+
+
+
+\newcommand{\seq}[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand{\xx}{\ensuremath{\seq{x}}} % 
+\newcommand{\X}{\ensuremath{\mathbf{X}}} % a vector 
+\newcommand{\bm}[1]{\mathbf{#1}}
+
+\newcommand{\truncation}{\end{document}}
+\newcommand{\blankthreepages}{\newpage  . \newpage . \newpage}
+
+%% comment to truncate the text. Uncomment to do nothing.
+\renewcommand{\truncation}{}
+\renewcommand{\blankthreepages}{}
+
+%opening
+
+\title{Introduction à l'apprentissage statistique - 2022}
+
+\author{François Landes}
+%, Kim Gerdes, Alan Adamiak, \\ Louise Allain, Mathieu Benard, Paul Michel Dit Ferrer, Ramdane Mouloua, Alexandre Pham}
+% \author{Etudiant5} ....
+
+
+
+\begin{document}
+
+
+\maketitle
+
+
+\tableofcontents
+
+\section{Réduction dimensionnelle : cas de l'Analyse en Composantes Principales, ACP (Principal Components Analysis, PCA) (aperçu en CM6, vu à fond plus tard)}
+
+L'analyse en composantes principales (en anglais,  \textit{Principal Components Analysis}, PCA) peut-être vue comme un des nombreux pré-traitements disponibles dans la panoplie du Machine-Learner. Mais c'est un outil en fait beaucoup plus général et puissant, qui est plus ancien que l'avènement des méthodes de ML modernes.
+
+En dépit de son âge, cette méthode n'a pas tellement vieilli: de par son élégance, ou son côté ``bien fondée formellement'', elle reste d'actualité.
+
+La PCA est une méthode d'\textbf{apprentissage non supervisé}. Elle fait partie des méthodes dites de \textbf{réduction dimensionnelle} (\textit{dimensional reduction}).
+
+La PCA peut aussi être vue comme une méthode de visualisation de données en grande dimension. Cependant, ce serait ignorer sa puissance de la limiter à ce rôle. D'autres méthodes, moins contrôlées mais assez puissantes, comme \textit{t-SNE}, sont bien adaptées pour la visualisation de données en grande $D$.
+
+La PCA peut aussi être vue comme une méthode de compression des données. La reconstruction (décompression) est très facile.
+
+\subsection{Intuition sur : réduction dimensionnelle}
+
+De façon générale (et non seulement pour la PCA), les méthodes de réduction dimensionnelle consistent à réduire la dimension de l'espace d'entrée (l'espace des features, de dimension $D$), vers une autre dimension, plus petite, $D'$ (ou $p$).
+Concrètement, cela consiste à chercher une application non injective $\Phi$:
+\begin{align}
+\Phi: \RR^D \longrightarrow \RR^{D'},  \text{ avec} D'<D
+\end{align}
+Pourquoi est-ce intéressant?
+Il y a différentes raisons, qui se recoupent entre elles. 
+Réduire la dimension des donnée:
+\begin{itemize}
+\item Permet de supprimer les redondances dans l'information d'entrée. Par exemple, lorsque 2 attributs sont identiques en valeur, ou de valeur proportionnelle, il n'y a pas d'intérêt à les garder en doublon (c'est même nuisible, a priori).
+\item Permet de réduire le ``bruit'' (c'est le nom qu'on donne aux informations ``inutiles''... c'est une vaste question de savoir ce que ça veut dire, précisément, et il est très difficile de distinguer le bruit du signal).
+\item On évite ainsi la malédiction des grandes dimensions. En effet, en général (mais pas nécessairement), plus les dimensions sont grandes, plus on a de paramètres à ajuster et on se retrouve facilement dans des cas de sur-apprentissage.
+\item On évite donc le sur-apprentissage: en effet, qui dit moins de dimensions en entrée dit, en général, moins de paramètres dans le modèle.
+\item Cela aide donc l'apprentissage: en termes de vitesse (a priori, c'est le cas, on peut probablement imaginer des cas pathologiques où ça ralentit l'apprentissage).
+\item Cela aide donc l'apprentissage: en termes de performance: ça dépend. On peut limiter la performance en supprimant les données, mais on peut aussi l'améliorer par la diminution du sur-apprentissage.
+\end{itemize}
+
+\subsection{PCA: idée}
+
+Ici on ne verra qu'une réduction dimensionnelle: la PCA.
+
+Dans ce cas particulier, l'application $\Phi$ est une projection (application linéaire) de l'espace $\RR^D$ dans le sous-espace $\RR^{D'}$. On projette les données sur un hyper-plan de dimension $D'$, qui a une certaine orientation dans l'espace parent $\RR^D$. 
+Dans la figure \ref{fig:PCA-2D-2D}, on voit ce que cela peut signifier, dans un cas à petite dimension, ou on peut encore dessiner.
+On voit aussi, ou bien on rappelle que, une projection est aussi le choix d'un nombre $D'$ de combinaisons linéaires des $D$ attributs d'entrée. Chaque dimension/nouvel attribut, après PCA, sera une combinaison linéaire des attributs d'entrée.
+
+On notera en général $\vec x' = P \vec x$ les données après projection ($P_{(D, D')}$ étant la matrice de projection, ou la matrice des coefficients des combinaisons linéaires, si vous voulez). Dans le cas particulier où $D' = 1$, $x'$ est un nombre et $x' = \vec{x} . \vec{P}$ où $.$ représente le produit scalaire.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=12cm]{Images/PCA-2D-2D.png}
+\caption{
+\label{fig:PCA-2D-2D}
+PCA de données à $D\geq 2$ dimensions (on n'en voit que 2, les 2 premières, mais on peut imaginer qu'il y en a d'autres, orthogonales aux premières) vers $D'=2$ dimensions. Si on imagine le cas $D=2$, on fait alors juste une rotation. Si on avait choisi $D'=1$, il ne resterait pour représenter les données que l'axe des abscisses, celui de la première composante: dans l'image de droite, il faudrait imaginer que l'axe des ordonnées a été écrasé, qu'il n'en reste que la valeur moyenne (ou 0).}
+\end{figure} 
+
+La question qui se pose maintenant est: comment choisir un bon hyper-plan sur lequel ou voudrait projeter~? 
+Le choix fait, dans le cadre de la PCA, est de prendre l'hyperplan \textbf{tel que la variance des données, après projection, est maximale}. On favorise donc les dimensions de grande variance (et leurs combinaisons linéaires).
+On verra que \textbf{ce choix est équivalent à un autre choix}, qui serait celui de vouloir \textbf{minimiser l'erreur de reconstruction} (en norme L2, c'est-à-dire de minimiser l'erreur quadratique moyenne de reconstruction).
+
+L'idée (naïve) ici est donc de \textbf{garder les attributs qui varient le plus} (car se sont ceux qui portent le plus d'information). Par ailleurs, si les données sont très hétérogènes, on peut les standardiser un minimum avant d'effectuer la PCA (pas sûr pendant le cours).
+
+\subsection{PCA: démonstration du bien-fondé de la méthode}
+ 
+\subsubsection{Variance des données après projection}
+Calculons donc la variance des données, après projection. Pour commencer, on ne s'intéresse qu'à une direction de projection.
+Soit $\vec u_i$ le vecteur qui caractérise l'axe de la projection. 
+Les données projetées deviennent donc de simples nombres, qu'on peut noter $x'_n=\vec u_i^T \vec x_n = \sum_d u_{id} x_{nd}$.
+
+
+On va prouver que la variance des données le long de cet axe, $\sigma'^2_i$, est donnée par: $\sigma'^2_i = \vec u_i^T C \vec u_i$, où $C$ est la matrice de covariance des données. (L'idée de la démonstration est de se concentrer sur une direction, ici $\vec{u}_i$).
+On a déjà parlé de la covariance, mais on est sympa, on rappelle la formule:
+\begin{align}
+C = \frac{1}{N}\sum_n^N (\vec{x}_n-\langle \vec{x}\rangle) (\vec{x}_n-\langle \vec{x}\rangle) ^T
+\end{align}
+Pour rappel, $C$ est clairement une matrice de taille $(D,D)$ (somme de $N$ produits matriciels de matrices $(D,1)$ par matrices $(1,D)$) et $\langle \vec{x}\rangle$ représente le vecteur moyenen de $\vec{x}$ (la moyenne empirique).
+On calcule la variance des données après projection sur $\vec u_i$, notée $\sigma'^2_i$:
+\begin{align}
+\sigma'^2_i 
+&= \frac{1}{N} \sum_n (x'_n-\langle x'\rangle)^2 & & \text{ = Définition de la variance} \\
+&= \frac{1}{N} \sum_n (\vec u_i ^T\vec{x}_n-\langle \vec u_i ^T\vec{x}\rangle)^2 \\
+&= \frac{1}{N} \sum_n (\vec u_i ^T\vec{x}_n-\langle \vec u_i ^T\vec{x}\rangle) (\vec u_i ^T\vec{x}_n-\langle \vec u_i ^T\vec{x}\rangle)^T \\
+& \text{Où on a utilisé que $a_i^2= a_i a_i^T$, même si $a_i$ est de taille (1,1).}\notag
+\\
+&= \frac{1}{N} \sum_n (\vec u_i ^T\vec{x}_n-\langle \vec u_i ^T\vec{x}\rangle) (\vec{x}_n-\langle \vec{x}\rangle)^T (\vec u_i ^T)^T\\
+& \text{On a utilisé que $(AB)^T = B^T A^T$.} \notag
+\\
+&= \frac{1}{N} \sum_n \vec u_i^T(\vec{x}_n-\langle \vec{x}\rangle) (\vec{x}_n-\langle \vec{x}\rangle)^T \vec u_i \\
+&=  \vec u_i^T \quad \frac{1}{N} \sum_n (\vec{x}_n-\langle \vec{x}\rangle) (\vec{x}_n-\langle \vec{x}\rangle)^T \quad \vec u_i \\
+\sigma'^2_i &= \vec u_i^T \quad C \quad \vec u_i
+\end{align}
+CQFD.
+
+\subsubsection{Calcul de la meilleure direction}
+
+Comme on l'a dit, \textbf{le choix fait dans la méthode de la PCA est celui de maximiser la variance des données projetées, donc trouver le $\vec u_i$ qui maximise $\sigma'^2_i $}. A priori, on pourrait écrire que le meilleur vecteur de projection est donc~:
+\begin{align}
+ (?) \quad \vec u_i ^* =  \underset{\vec u_i \in \RR^D}{\argmax}  \left( u_i^T C \vec u_i \right) \quad (?)
+\end{align}
+Cependant, si on résout ce problème d'optimisation, on obtient la solution triviale et non intéressante, qu'il faut prendre un vecteur $\vec u_i$ de la norme la plus grande possible (une matrice de Covariance est par définition semi-définie positive, c.a.d.~ que ses valeurs propres sont positives ou nulles).
+Ce n'est pas intéressant, car on fait une projection, ce qui nous intéresse c'est de trouver le bon angle de projection, pas de multiplier nos données par $\infty$ pour augmenter leur variance.
+
+%on veut maximisr $uCu$, mais sans juste faire diverger la norme de $u$, qui est avant tout une direction (on se fiche de sa norme, pour projeter).
+On décide donc de se restreindre aux vecteurs de norme $1$, \cad de ne regarder que l'orientation de $\vec u_i$: on impose $\vec u_i^2=1$
+On traite donc du problème d'optimisation sous contrainte suivant:
+\begin{align}
+\vec u_i ^* = \underset{\vec u_i \in \RR^D, \vec u_i ^2=1}{\argmax}  \left( u_i^T C \vec u_i  \right) 
+\end{align}
+Qui peut se réécrire, en attribuant à la contrainte $ u_i ^2=1 \Leftrightarrow  (1-u_i ^2)=0$ le multiplicateur\footnote{
+Ici, le signe à mettre devant la contrainte s'obtient en réfléchissant sur la direction qu'on veut contenir: en fait, ce qu'on veut, c'est que $(1-u_i ^2) \geq 0$, mais cette inégalité va être saturée car les plus grand $u_i^2$ sont favorisés. D'où l'ajout de $\lambda (1-\vec u_i^2) $ à la fonction, et non pas son opposé, $\lambda (\vec u_i^2-1)$.
+} $\lambda$:
+\begin{align}
+\vec u_i ^* = \underset{\vec u_i \in \RR^D}{\argmax}  \left( u_i^T C \vec u_i + \lambda (1-\vec u_i^2) \right) 
+\end{align}
+On note:
+\begin{align}
+F(\vec u_i) &= u_i^T C \vec u_i + \lambda (1-\vec u_i^2) 
+\\
+\vec u_i ^* &= \underset{\vec u_i \in \RR^D}{\argmax}  \left( F(\vec u_i)\right) 
+\end{align}
+
+Ce problème de maximisation est assez simple, et il se trouve qu'on peut le résoudre exactement.
+La méthode est classique: on cherche le zéro de la fonction que est dans le argmax, \cad on cherche à résoudre $\vec \nabla_{\vec u_i} F(\vec u_i)=\vec 0$.
+Ce n'est pas évident, mais le gradient de $ u^T C u$ se calcule, pour une matrice $C$ symmétrique (et donc telle que $C^T=C$): $\vec \nabla_{\vec u} (\vec u^T C \vec u) = 2 C \vec u$. 
+En fait, pour faire ce calcul, on repart de la définition intiale, \cad de $\vec u^T C \vec u = \frac1N \sum^N_n (\vec u^T \vec x - \moy{\vec u^T \vec x})^2$. 
+Pour alléger la notation, on va supposer, temporairement, que les données sont centrées, \cad que $\moy{\vec x}=\vec 0$. Ça ne change pas la valeur de la matrice de covariance, et ça allège l'écriture.
+\begin{align}
+\vec \nabla_{\vec u} (\vec u^T C \vec u) 
+&= \vec \nabla_{\vec u} \frac1N \sum^N_n (\vec u^T \vec x_n - \cancel{ \moy{\vec u^T \vec x_n}} )^2
+\\&=  \frac1N \sum^N_n  \vec \nabla_{\vec u} (\vec u^T \vec x_n)^2 
+\\&=  \frac1N \sum^N_n  2 \vec x (\vec u^T \vec x_n)^1 \qquad \text{ car } \frac{\partial }{\partial s} f^2(s)=2 \frac{\partial f }{\partial s} f(s)
+\\& \text{Puisque $\vec u^T \vec x$ est un nombre,} \vec u^T \vec x_n = (\vec u^T \vec x)^T =  \vec x_n^T \vec u
+\\&=  \frac1N \sum^N_n  2  \vec x_n (\vec x_n^T \vec u)
+\\&= 2 \frac1N \sum^N_n (\vec x_n \vec x_n^T) \vec u
+\\&=  2 C \vec u
+\end{align}
+%On pourrait faire cette démo en utilisant quelques propriétés d'algèbre: comme $C$ est semi-définie positive, on sait qu'elle est diagonalisable et .. bon, ca c'est pas urgent XXX
+Par ailleurs, il est facile de vérifier que $\vec \nabla_{\vec u} \lambda \vec u^2 = 2\lambda \vec u$.
+On peut donc terminer la recherche du $\argmax(F(\vec u_i))$:
+\begin{align}
+\vec \nabla_{\vec u_i} F(\vec u_i)
+&=\vec 0 \Leftrightarrow  
+\\\vec 0  &= 2 C \vec u - 2 \lambda \vec u 
+\\C \vec u &= \lambda \vec u
+\end{align}
+\textbf{C'est l'équation aux valeurs propres !} Comme c'est joli ! C'est un résultat assez profond.
+Il y a donc \textbf{autant de maxima locaux de la fonction $F(\vec u_i)$ qu'il y a de couples $(\lambda_i, \vec u_i$} (couples de valeur propre-vecteur propre).
+La norme des vecteurs propre est imposée par notre contrainte $\vec u^2=1$. La direction (le signe devant $\vec u$) est arbitraire, ce qui est normal pour une projection, car une projection dépend de la droite sur laquelle on projète, mais pas de son orientation.
+Par contre, il y a plein de valeurs propres... laquelle faut il prendre ? Hé bien, il faut prendre celle qui réalise le maximum global de $F(\vec u_i)$.
+
+Maintenant qu'on sait qu'on s'intéresse aux vecteurs $\vec u$ de norme $1$ et tels que $C \vec u = \lambda \vec u$ (\cad les vecteurs propres), on peut réécrire $F$, en prenant un couple $(\lambda_i,\vec u_i)$ arbitraire:
+\begin{align}
+F(\vec u_i)_{| \vec \nabla_{\vec u_i} F(\vec u_i) =\vec 0 }
+&= \vec u_i^T C \vec u _i + \lambda (1-\vec u_i^2) 
+\\&= \vec u_i^T \lambda_i \vec u_i  + 0 
+\\&= \lambda_i  \vec u_i^T \vec u_i
+\\&= \lambda_i 
+\end{align}
+Plutôt propre, non ? Donc en fait, \textbf{la variance des données projetées est exactement égale à la valeur propre correspondant à la direction propre qu'on choisit pour projeter}.
+Une autre façon de le voir est de juste calculer la variance projetée, sans passer par $F$:
+$ \sigma_i ^2 = \vec{u_i}^T (C \vec{u_i}) = \vec{u_i}^T \lambda_i \vec{u_i} = \lambda_i \vec{u_i}^2 = \lambda_i $.
+
+\textbf{Conclusion: la meilleure direction, parmi toutes les directions, est celle donnée par le vecteur propre qui est associé à la plus grande valeur propre}.
+
+\subsubsection{Directions suivantes}
+
+En pratique, on ne souhaite pas conserver que 1 composante, mais plutôt projeter depuis un espace de dimension $D$ vers un espace de dimension $D', 1<D'<D$. 
+On projette donc non pas sur une droite (un seul vecteur) mais plutôt sur un hyper-plan, dont l'orientation est définie par les vecteurs qui sont dans ce plan. Pensez par exemple à une paire de vecteurs (non colinéaires) dans un espace à $D=3$: ces deux vecteurs définissent naturellement un plan (à $D'=2$ dimensions).
+
+Les données \textbf{après projection sur un hyper-plan} de dimension $D'2$, par exemple, s'écrivent de la façon suivante.
+Appelons $\vec u_1 \in \RR^D, \vec u_2\in \RR^D$ les deux vecteurs qui définissent ce plan.
+Appelons $\vec e_1 = (1,0), \vec e_2= (0,1)$ les deux vecteurs de la base interne au plan (ces vecteurs définissent un repère interne au plan, qui permet de se promener dedans).
+Alors la projection s'écrit:
+\begin{align}
+\vec x' = (\vec x ^T \vec u_1) \vec e_1 + (\vec x ^T  \vec u_2) \vec e_2 
+\end{align}
+L'écriture générale est $\vec x' = \sum_{d'=1}^{D'} (\vec x \cdot \vec u_{d'}) \vec e_{d'} $.
+
+% TODO: pour francois: faire un joli dessin de l'esapce D , l'hyerplan, et les vecteurs e1 e2 dedans.
+\textbf{Quels sont les directions qui définissent cet hyper-plan ?}
+On ne refait pas tout le raisonnement, mais au vu de la partie précédente, \textbf{la 2ème meilleure direction est celle donnée par le vecteur propre qui est associé à la plus grande valeur propre}.
+Et ainsi de suite pour la 3ème, la 4ème, etc.
+
+On aboutit alors à la remarque suivante.
+Si on diagonalise la matrice de covariance, $C$, on a : $C =U \Lambda U^{-1}$, avec $\Lambda$ (se lit Lambda majuscule, comme $\lambda$) la matrice diagonale des valeurs propres, et $U$ la matrice de passage vers l'espace où $C$ est diagonalisée.
+\begin{align}
+\Lambda = \begin{pmatrix}
+    \diagentry{\lambda_1}\\
+    &\diagentry{\lambda_2}\\
+    &&\diagentry{\xddots}\\
+    &&&\diagentry{\lambda_{D}}\\
+\end{pmatrix}
+\qquad
+U = \begin{pmatrix}  \begin{pmatrix} . \\ \vec u_1 \\  .  \end{pmatrix} &  \begin{pmatrix} . \\ \vec u_2 \\  .  \end{pmatrix} & ... &  \begin{pmatrix} . \\ \vec u_D \\  .  \end{pmatrix} \end{pmatrix}
+\end{align}
+On ne rentre pas dans les détails, mais il est légitime de supposer qu'une matrice de covariance de données ``normales'' sera diagonalisable
+\footnote{Le sous-espace des matrices diagonalisables dans $\mathbb{C}$ est dense dans l'espace des matrices (à valeurs dans $\mathbb{C}$. Ceci n'est pas vrai dans $\RR$, mais à part pour de données pathologiques, une matrice de covariance sera diagonalisable.}
+, avec tous les vecteurs propres distincts deux à deux. Par définition de $C$, elle est semi-définie positive, \cad que toutes ses valeurs propres sont positives ou nulles.
+Comme toujours lors d'une diagonalisation, \textbf{$U$ est constituée des vecteurs propres mis côte à côte}, dans le même ordre que les $\lambda_i$ dans $\Lambda$.
+Ici, on choisit d'\textbf{ordonner les $\lambda_i$ par valeur décroissante} (elles sont toutes positives et réelles).
+
+La matrice de projection sur l'hyper-plan de dimension $D'$ s'obtient alors (souvenez vous qu'on a trié les $\lambda_i$ par ordre décroissant) en gardant les $D'$ premières directions propres:
+\begin{align}
+P = \begin{pmatrix}  \begin{pmatrix} . \\  \vec u_1 \\  .  \end{pmatrix} &  \begin{pmatrix} . \\  \vec  u_2 \\  .  \end{pmatrix} & ... &  \begin{pmatrix} . \\ \vec u_{D'} \\  .  \end{pmatrix} \end{pmatrix}
+\end{align}
+La matrice $P$ n'est pas carrée, elle est de taille $(D,D')$ ($D$ lignes, $D'$ colonnes).
+Comme on l'a dit plus haut, la donnée $\vec x_n$ projetée s'obtient alors ainsi:
+$\vec x_n' = \sum_{d'=1}^{D'} (\vec u_{d'} \cdot \vec x_n ) \vec e_{d'}$.
+Ceci est en fait l'écriture d'une multiplication matricielle:
+\begin{align}
+\vec{x}_{n, transformed} = (\vec{x}_n)' = (\vec{x}_n -\langle \vec{x}\rangle) \cdot P  \end{align}
+Ces vecteurs sont de dimension $D'$.
+
+\subsubsection{Décompression}
+
+La transformée inverse s'obtient ainsi:
+\begin{align}
+\vec{x}_{n,decompressed} =\vec{x}_{n, transformed} \cdot  P^T + \langle \vec{x}\rangle
+\end{align}
+On obtient donc de nouveau des vecteur de dimension $D$.
+
+On voit dans cette expression en quoi c'est une expression avec perte. En effet, on a 
+$\vec{x}_{n,decompressed} =((\vec{x}_n -\langle \vec{x}\rangle) \cdot P ) \cdot  P^T + \langle \vec{x}\rangle$.
+L'opérateur $PP^T$ est une matrice de dimension $(D,D)$, mais qui intuitivement, ``passe par une dimension intérmédiaire de dimension $D'$''. Mathématiquement, on pourrait constater que $PP^T$ n'a que $D'$ directions indépendantes (valeurs propres distinctes).
+
+\subsection{PCA: résumé de l'algorithme}
+
+L'algorithme de la PCA est donc le suivant : 
+
+\begin{enumerate}
+\item Calculer la matrice de covariance $C$ (cela se fait en un temps linéaire en la taille des données)~: $C = \frac{1}{N}\sum_{n=1}^{N}(\vec{x}_n-\langle\vec{x}\rangle)(\vec{x}_n-\langle\vec{x}\rangle)^T$
+\item Diagonaliser $C$. Cela se fait en un temps $O(D^3)$, a priori (voir remarque plus bas). Cela revient à chercher une matrice de passage $U$ telle que $$ C = U\Lambda U^{-1}$$ où $\Lambda$ est une matrice diagonale dont les coefficients diagonaux sont les valeurs propres de $C$ rangées dans l'ordre décroissant.
+\item Garder seulement les $D'$ premières valeurs propres (on s'intéresse uniquement aux plus grandes valeurs propres qui permettent d'obtenir plus grande variance, que l'on cherche justement à maximiser) : $P = (\vec{u}_1, ...., \vec{u}_{D'})_{D, D'}$
+\item Projeter (transformer) : $\vec{x}_{n, transformed} = (\vec{x}_n-\langle\vec{x}\rangle). P$
+\end{enumerate}
+
+Par ailleurs si on ne cherche que les $D'$ plus grandes valeurs propres, on peut le faire en un temps $O(D'D^2)$ au lieu de $O(D^3)$, ce qui est très appréciable 
+(on part du principe que $D'\leq D$).
+Il existe aussi des solutions encore approximatives plus rapides avec résultats légèrement aléatoires. D'autant que dans le cas de la projection ce n'est pas grave d'avoir quelques erreurs.
+
+Une fois cet algorithme appliqué, on peut effectuer la transformation inverse pour revenir à l'espace de départ (c'est une compression avec perte).
+
+\begin{figure}
+    \centering
+    \includegraphics[width=8cm]{Images/PCA-T-shirt.png}
+    \caption{
+    \label{fig:PCAdecompress}
+    On passe d'une image de dimension $D = 784$ à $D' = 30$, puis on revient à l'espace d'origine pour visualisation. On a $D' = 30 \sim \sqrt{D}$ soit presque 30 fois moins, et pourtant on peut toujours reconnaître l'image.
+    }
+\end{figure}
+
+
+
+
+Attention : Quand on effectue une PCA sur une une image de dimension $D$, on obtient $D'$ nombres, mais on n'a plus du tout a faire a une image, la donnée n'est plus visualisable -- on peut cependant la décompresser ensuite pour revenir à une image.
+
+\subsection{Ressources}
+
+Concernant ce Chapitre, vous avez:
+\begin{itemize}
+    \item (ressource bilingue)\\
+\url{https://gitlab.inria.fr/flandes/ias/-/blob/master/PCA-intuitive-showcase.ipynb}
+\item (ressource bilingue)\\
+\url{https://gitlab.inria.fr/flandes/ias/-/blob/master/PCA-proof-of-exact-computation.ipynb}
+\item (en anglais)\\
+\url{https://plot.ly/ipython-notebooks/principal-component-analysis/}
+\item Bishop \cite{bishop} chapter 12, page 561-570 (ou plus si vous êtes intéressé.e.s).
+\end{itemize}
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Modèles Bayésiens (CM7+8, séances 6+8)}
+
+
+Les techniques décrites ici peuvent être vues comme des \textit{estimations de densité}.
+
+Lorsqu'on souhaite ``fitter'' les paramètres d'une densité de probabilité sur un ensemble de données, la méthode la plus naturelle consiste à choisir les paramètres tels que les données soient ``les plus vraisemblables'' ou autrement dit, qu'elles soient ``réalistes'', c.a.d. qu'il soit crédible que ces données aient été générées par cette distribution, avec ces paramètres.
+
+Cette approche s'appelle l'estimation par le Maximum de Vraisemblance (des données).
+On cherche ainsi à trouver les paramètres optimaux $\theta^*$ qui maximisent:
+\begin{align}
+\theta^* = \argmax_\theta (\PP (X|\theta))
+\end{align}
+
+Notation: l'exposant $.^*$ est souvent utilisé pour désigner la solution d'un problème d'optimisation.
+
+Notation: le chapeau $\hat{u}$ est souvent utilisé pour désigner l'\textit{estimateur} d'une quantité a priori inconnu. On lira $\hat{u}$ ``u chapeau'' ou bien ``estimateur de u''.
+
+
+Notation: on dit que la variable aléatoire (v.a.) $X$ est paramétrée par les paramètres $\theta$.
+
+\subsection{MLE: 1 variable à 1 dimension}
+\label{sec:MLE1variable}
+
+
+Prenons un exemple concret, par exemple la taille en cm d'un certain nombre $N$ d'étudiants.
+On dispose de $N$ points de données, à 1 dimension, c.a.d que ce sont des nombres réels.
+On suppose que les tirages sont indépendants.
+Si $X_n$ est la v.a. associée au n-ième tirage (indiquée ci dessous), la v.a. des $N$ tirages est alors la v.a. produit, notée $X$:
+\begin{align}
+\forall n \in  [|1,...,N|], X_n \sim X_1 \\
+X \sim (X_1,X_2,\ldots, X_N)
+\end{align}
+Notations: $X \sim Y $ signifie que la v.a. $X$ suit la même loi que la v.a. $Y$.
+L'indépendance entre deux v.a. $X_1$ et $X_2$ est notée $X_1 \indep X_2$. Ici on a $X_i\indep X_j, \forall i\neq j$.
+Ici, les virgules signalent un ``ET'' logique.
+
+On dispose de données, qu'on note plutôt $X_{(N,1)}$ que $X$, afin de les distinguer de la variable aléatoire $X$. Les données sont la \textit{réalisation} d'une certaine loi (ou bien quelque chose qu'on arrivera jamais à décrire mathématiquement, selon les problèmes).
+Les données $X_{(N,1)}$ sont donc une liste: $X_{(N,1)} = (x_1,x_2,\ldots, x_N)$, avec $x_n\in \RR$.
+
+On définit alors la probabilité d'avoir obtenu le tirage $X_{(N,1)}$, depuis la v.a. $X$:
+\begin{align}
+\PP(X= X_{(N,1)}) 
+&=\PP(X_1 =x_1, X_2 =x_2, \ldots X_N =x_N  ) \qquad \text{(Définition, toujours vraie)} \\
+&=  \prod_n^N \PP(X_n =x_n) \qquad \text{(Car les $X_n$ sont indépendants)}
+\end{align}
+
+Il faut maintenant rendre les choses plus concrètes en choisissant un \textit{modèle} mathématique, \cad une expression \textbf{explicite} pour la forme de $\PP(X_n =x_n)$. Ici, pour aujourd'hui, on suppose que tous les points sont distribués selon la (même) loi \textbf{Gaussienne}:
+\begin{align}
+\PP(X_n\in[x,x+dx]) = \rho(x)\dx, \\
+\rho(x) = \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left( -\frac{(x-\mu)^2}{2\sigma^2}\right)
+\end{align}
+Où $\theta=(\mu,\sigma)$ sont les 2 paramètres réels à \textit{estimer} (à ``fitter'', en vocabulaire de Machine Learning).
+Attention, de façon générale, on aurait pu faire un autre choix de représentation, à la place de la Gaussienne: on aurait pu prendre une loi de Poisson, de Bernoulli, etc. C'est un \textit{choix} de \textit{modélisation}.
+
+Notation: $\rho(x)$ se lit rho de $x$, c'est la \textit{densité} associée à la v.a. $X$, qui est une v.a. continue.
+
+%% TODO: ajouter ici un hitogramme en baton ou autre représentation discrète, et une tentative de fit de ces données: a gauche, une gaussienne avec params. random, et a droite, la gaussienne fitée.
+
+L'idée de maximiser la vraisemblance des données revient alors, concrètement, à \textbf{maximiser la vraisemblance des données sachant les paramètres}, notée $\LL$ (comme Likelihood, Vraisemblance en anglais):
+\begin{align}
+\LL(\theta) = \PP(X= X_{(N,1)}|\theta) \\
+\theta^* = \argmax _\theta (\LL(\theta))
+\end{align}
+Quel que soit le choix de modélisation, il y aura toujours au moins un paramètre à \textit{estimer} d'après les données: c'est pour cela qu'on parle d'\textit{estimateur par le maximum de vraisemblance} (\textit{Maximum Likelihood Estimate}, en anglais, ou EMV en Français).
+
+
+Il y a une astuce qui est appliquée quasi systématiquement: le argmax d'une fonction est aussi le argmax du log de cette fonction, car log est strictement croissante:
+\begin{align}
+\theta^* = \argmax _\theta (\LL(\theta)) = \argmax _\theta (\log(\LL(\theta))) = \argmax _\theta (\ell(\theta))\\
+\ell(\theta) = \log \LL(\theta) \quad \text{(est nommée la log-vraisemblance ou log-likelihood)}
+\end{align}
+
+
+Le reste n'est plus qu'un bête calcul.
+Pour le modèle Gaussien, on calcule une bonne fois $\ell(\theta)$:
+\begin{align}
+\ell(\theta) 
+&=\log  \left(\rho(X= X_{(N,1)}|\theta)\right)
+\\ 
+&=\log  \left( \prod_n^N \rho(X_n=x_n|\theta) \right)
+\\ 
+&= \log \left( \prod_n^N \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left( -\frac{(x_n-\mu)^2}{2\sigma^2}\right)  \right)
+\\
+&=  \sum_n^N \left( \log \frac{1}{\sqrt{2\pi \sigma^2}} \right) +  \sum_n^N \left( \log \exp\left( -\frac{(x_n-\mu)^2}{2\sigma^2}\right)  \right)
+\\
+&= - N \log ( \sqrt{2\pi} \sigma) - \sum_n^N \frac{(x_n-\mu)^2}{2\sigma^2}
+\end{align}
+
+On cherche le maximum (extremum) d'une fonction en cherchant à annuler sa dérivée première (on pourra vérifier que la dérivée seconde est négative).
+Donc, au point idéal $\theta^*=(\mu^*, \theta^*)$, on aura:
+\begin{align}
+0 &= \frac{\partial}{\partial \mu} \ell(\theta) \\
+0 &= 0 -  \sum_n \frac{2(x_n-\mu)}{2\sigma^2}(-1) \\
+0 &=  \sum_n (x_n-\mu) \\ 
+N \mu &= \sum_n x_n \\
+\mu &= \frac1N \sum_n x_n \hat{=} \overline{x}
+\end{align}
+C'est-à-dire qu'on trouve que l'estimateur du paramètre $\mu$ par maximum de vraisemblance, noté $\mu^*$ ou $\hat{\mu}$, est égal à la moyenne empirique, notée $\overline{x}$. On a trouvé : $\hat{\mu}=\overline{x}$
+
+De même pour $\sigma $ :
+\begin{align}
+0 &= \frac{\partial}{\partial \sigma} \ell(\theta) \\
+0 &= -N\frac1\sigma -  \sum_n \frac{2(x_n-\mu)^2}{2\sigma^3} \\
+0 &= \frac{N}{\sigma} \sigma^3 +\sum_n \frac{(x_n-\mu)^2}{\sigma^3} \sigma^3  \
+\\
+\sigma^2 &= \frac1N \sum_n^N(x_n-\mu)^2
+\end{align}
+On trouve ici encore que le meilleur estimateur du paramètre $\sigma$ pour modéliser les données, $\sigma^*$, aussi noté $\hat{\sigma}$, est égal à l'écart-type empirique, $\sigma_{empirique}$ (là il n'y a pas vraiment de notation pour résumer l'expression $\sqrt{ \frac1N \sum_n^N(x_n-\mu)^2}$).
+
+Finalement, on retrouve les estimations fréquentistes, c.a.d que l'estimation du maximum de vraisemblance coïncide avec les estimations empiriques (par exemple, la variance empirique, c'est $ \frac1N \sum_n^N(x_n-\mu)^2$)
+Mais la méthode est très générale !
+
+\subsection{1 variable à D dimensions}
+
+On précise d'abord la structure des données:\\
+$N$, la taille des données d'apprentissage (le nombre d'exemples)\\
+$D$, la dimension de chaque point de donnée \\
+$X_{(N,D)}$: les données d’entraînement (par exemple, un ensemble d'images). $\vec{x}_n$ est l'image numéro $n$, elle correspond à $D$ nombres réels (intensités de gris des pixels)\\
+$\Theta$: les paramètres à optimiser (le détail dépend du modèle choisi).
+
+\subsubsection{Dimensions indépendantes}
+
+Si les dimensions sont supposées indépendantes, alors c'est facile, tout se factorise. Par exemple, si on a des gaussiennes à plusieurs dimensions, mais avec chaque dimension indépendante, alors on a, pour un tirage $\vec{x}_n\in \RR^D$, une densité: 
+\begin{align}
+\rho(\vec{x}_n) = \prod_{d=1}^D \frac{1}{\sqrt{2\pi \sigma_d^2}} \exp\left( -\frac{(x_{nd}-\mu_d)^2}{2\sigma_d^2}\right)
+\end{align}
+Où on a noté $x_{nd}$ la $d$-ième composante du vecteur $\vec{x}_n$.
+Quand on prend le log, ce produit là aussi devient une somme, et lorsqu'on cherche la meilleure estimation du paramètre $\sigma_d$ par exemple, on obtient simplement la même chose qu'en 1D:
+\begin{align}
+\sigma_d^2 &= \frac1N \sum_n^N(x_{nd}-\mu_d)^2
+\end{align}
+
+
+\subsubsection{Dimensions corrélées}
+
+Quand les dimensions sont corrélées, on doit caractériser leur corrélation.
+
+Une caractérisation de la corrélation entre les différentes dimensions se fait, au premier niveau, par la matrice de covariance.
+On peut voir l'ensemble des tirages, $X_{(N,D)}$, comme un ensemble de tirages simultanés de lois distinctes: le n-ième tirage correspond au tirage simultané des variables aléatoires $X_{n1},X_{n2}, \ldots X_{nD}$ (Dans le rappel de cours ci dessous, on a $X$ et $Y$, ici ça correspond par exemple à $X_{n1},X_{n2}$).
+
+La matrice de covariance est donc la matrice des covariances des v.a. associées à chaque dimension (on pourrait les appeler les $X_d$, mais c'est un abus de notation), elle est de taille $(D,D)$.
+En loi, sa composante $d,d'$ est définie par:
+\begin{align}
+K_{d,d'} = Cov[X_d, X_{d'}] = \mathbb{E}[(X_d - \mathbb{E}[X_d])(X_{d'} - \mathbb{E}[X_{d'}])]
+\end{align}
+Son estimateur statistique est:
+\begin{align}
+\hat{K}_{d,d'} = \frac{1}{N}\sum_n^N (x_{n,d} - \overline{X_d} (x_{n,d'} - \overline{X_{d'}} )]
+\end{align}
+où $\langle X_d \rangle = \frac{1}{N}\sum_n^N x_{n,d}$ dénote la moyenne empirique (qui se trouve être l'estimateur de l'espérance, ce n'est pas un hasard).
+
+La diagonale de cette matrice sera constituée par la liste des variances de chaque dimension.
+
+\subsubsection{Caractérisation des corrélations: la Covariance (rappel du poly de maths de L2)}
+
+Lorsque deux v.a. $X,Y$ sont corrélées (non indépendantes), la loi de leur somme, $Z=X+Y$, n'est pas déterminée de façon simple à partir des lois de chacune.
+En particulier, les moments d'ordre $k$ de $Z$ ne sont pas toujours égaux à la somme des moments d'ordre $k$ de $X$ et $Y$.\\
+Le moment d'ordre zéro est toujours égal à 1, c'est la normalisation: $\EE[Z^0] = 1 \neq \EE[X^0] +\EE[Y^0] =1 +1$.\\
+Le premier moment, lui, est linéaire: $\EE[X+Y] = \EE[X]+\EE[Y]$ (que $X,Y$ soient indépendantes ou pas~!).\\
+Le second moment de $Z=X+Y$ est \textbf{une première façon de caractériser la corrélation} entre $X$ et $Y$. On définit ainsi la \textbf{covariance} de $X,Y$:
+\begin{align}
+Cov(X,Y) = \EE\Big[ (X-\EE[X])(Y-\EE[Y]) \Big]
+\end{align}
+Moralement, la covariance correspond au produit de $X$ et $Y$: on peut retenir que, en gros, $Cov(X,Y) \approx \EE[X Y]$. En gros seulement, car il faut d'abord enlever le premier moment pour que cette égalité fonctionne réellement. On a soustrait les espérances de chaque v.a. afin d'enlever la partie ``triviale'' (constante) des deux variables.
+Et pourquoi vouloir calculer le produit ? Parce que c'est l'opération la plus simple, qui soit tout de même non triviale (or l'addition est triviale, puisque le premier moment est linéaire, lui).
+
+Cet aspect générique est également apparent par le fait que la covariance apparait dans $V[Z]=V[X+Y]$, soit le deuxième moment de la somme.
+\begin{align}
+V[X+Y]
+%&= V[X]+V[Y] + 2 ~\EE\Big[ (X-\EE[X])(Y-\EE[Y]) \Big] \\
+&= V[X]+V[Y] + 2~Cov(X,Y)
+\end{align}
+
+\emph{Propriétés:}
+\begin{itemize}
+\item $X\indep Y~ \implies ~ Cov(X,Y) = 0$
+\item $Cov(X,Y) = 0 ~ \cancel{\implies} ~ X \indep Y$
+\item $Cov(X,X) = V[X]$
+\item $Cov(X,Y) = Cov(Y,X)$
+\item $Cov(aX,Y) = a Cov(X,Y)$
+\item $Cov(X+a,Y) =Cov(X,Y)$
+\item $Cov(X+Y,W) =Cov(X,W) + Cov(Y,W)$
+\end{itemize}
+
+
+\emph{Coefficient de corrélation:}
+Si le second moment de $X$ est fini, et le second moment de $Y$ aussi ($V[X]< \infty, V[Y]< \infty$), le \textbf{coefficient de corrélation} de $X,Y$ est :
+\begin{align}
+Corr(X,Y) = \frac{Cov(X,Y)}{\sigma[X] \sigma[Y]}
+\end{align}
+On remarque que même si $X,Y$ ont chacun des unités (par exemple des cm et des kg), le coefficient de corrélation est \textbf{adimensionné} (il n'a pas d'unités).
+\\
+
+Le coeff. de corrélation varie entre $-1$ (anti corrélation complète, on peut essayer de prouver que $X=-Y$ en loi) et $1$ (corrélation complète, on peut essayer de prouver que $X=Y$ en loi).
+Mais attention, si il vaut $0$, cela ne signifie pas nécéssairement que $X\indep Y$~!
+\\
+
+\subsubsection{Cas notable: Gaussienne multi-variée}
+
+Le cas de la Gaussienne multi-variée est un cas de variable aléatoire dotée d'une covariance fixée qui revêt un intérêt particulier, car dans ce cas, la covariance caractérise parfaitement les corrélations.
+%Réciproquement, si on a des v.a. corrélées et qu'on souhaite carac
+Sa densité s'écrit:
+\begin{align}
+f_{\boldsymbol{\mu},\boldsymbol{\Sigma}}\left(\boldsymbol{x}\right)=
+\frac{1}
+{(2\pi)^{N/2} \left| \boldsymbol{\Sigma}\right|^{1/2}}\;\exp\left[
+-\frac{1}{2}\left(\boldsymbol{x}-\boldsymbol{\mu}\right)^\top\boldsymbol{\Sigma}^{-1}\left(\boldsymbol{x}-\boldsymbol{\mu}\right)\right]
+\end{align}
+Ici, pour changer, on a adopté la notation plus mathématicienne/informaticienne (moins explicite, plus compacte): les vecteurs sont en gras, les matrices aussi. Ici $\boldsymbol{\Sigma}$ est la matrice de covariance de la variable aléatoire associée aux $\boldsymbol{x}$, elle est de dimension $(D,D)$.
+On note qu'on a besoin de $\boldsymbol{\Sigma}^{-1}$, il faut donc qu'elle soit inversible, et par ailleurs la notation $\left| \boldsymbol{\Sigma}\right| = det  \boldsymbol{\Sigma}$ indique le déterminant (qui doit être non nul).
+
+Allez jouer avec le script ``exemples-Matrices-de-Covariance+Genereration-de-Gaussiennes'' pour voir quelques gaussiennes multi-variées en 2D, déjà.
+(en gros, il suffit d'utiliser la méthode  ``X = np.random.multivariate\_normal(mu, cov, (N))'', où mu est le vecteur des moyennes, et cov la matrice de covariance des données souhaitée.
+
+
+\subsection{$K$ variables à $D$ dimensions}
+
+On peut supposer que les données sont issues de différentes sources (des variables aléatoires), c.a.d. qu'elles sont un mélange de différentes lois de probabilités.
+Ce cas est plus complexe. On peut d'abord traiter le cas, très simple, où chaque source produit des données $X$, mais qu'on détient en même temps le label $y$ ou $k$ qui permet d'identifier la source.
+C'est le cas ci dessous.
+
+%\newpage
+%Ce qui est ci dessous sera vraisemblablement vu au prochain cours (CM5, 11 février)
+
+\subsection{$K$ variables à $D$ dimensions, avec label connu: le Modèle Bayésien Naïf}
+
+
+Une fois qu'on a compris l'idée du calcul du MLE (Maximum Likelihood Estimate), on peut en faire un modèle d'apprentissage supervisé, très facilement.
+C'est un modèle un peu pauvre, mais qui est la brique de base pour des modèles plus complexes, plus expressifs. Il est donc important de bien comprendre cette brique de base.
+
+Par ailleurs, cela fait un bon exercice sur la manipulation d'indices et de sommes ou produits assez simples.
+
+Ici, pour être concret, on choisira un modèle de Bernoulli.
+On rappelle que la distribution de proba de Bernoulli peut s'écrire:
+$\PP(X=1)=p, \PP(X=0)=1-p$, ce qui peut se résumer sous la forme plus dense:
+$\PP(X=x)= p^{x} (1-p)^{1-x}$. (on utilise le fait que $x$ vaut forcément $0$ ou $1$, et que $A^0=1, \forall A$).
+
+\subsubsection{Définition du problème, et structure des données}
+
+On peut imaginer qu'on s'intéresse à de la classification supervisée d'images en noir et blanc.
+
+On précise la structure des données:
+$N$, la taille des données d'apprentissage.\\
+$D$, la dimension des données (= nombre de pixels)\\
+$K$, le nombre de classes présentes dans les données à classifier
+\\
+$X_{(N,D)}$: les données d'entraînement (typiquement, un ensemble d'images). $\vec{x}_n$ est l'image numéro $n$, elle correspond à $D$ nombres réels (intensités de gris de pixels)\\
+$y_{(N)}$: les classes des données ($y[n]$ est la classe de la donnée numéro $n$ (typiquement, à valeurs dans $[1,...,K]$)\\
+$\Theta$: les paramètres à optimiser (le détail dépend du modèle choisi, mais il y a au moins $K$ paramètres, probablement $KD$ ou plus.\\
+
+\subsubsection{Apprentissage des paramètres du modèle}
+
+On souhaite maximiser la vraisemblance de données, pour un modèle choisi, c.a.d. pour une forme de $\PP(X=(\vec{x})_n | y=k, \Theta)$ fixée (par exemple, modèle Gaussien ou de Bernoulli, ou une autre forme explicite de la relation entre $\PP(X=(\vec{x})_n | y=k, \Theta)$ et les variables $x_{n,d}, y, \Theta_{k,d}$.
+Intuitivement, le terme de vraisemblance peut être remplacé par crédibilité, degré de réalisme: on se demande: ``quels sont les paramètres $\Theta$ qui font qu'observer telle ou telle donnée (image) est crédible/réaliste ?''. C'est donc assez raisonnable de maximiser cette chose là.\\
+
+Maximiser la vraisemblance de données revient à apprendre les valeurs des paramètres $\Theta$ telles que $\mathcal{L}(\Theta) = \PP(X=(\vec{x})_n | y=k, \Theta)$ soit maximale. On peut appeler $\Theta^*$ la solution de ce problème d'optimisation:
+\begin{align}
+\Theta^* = argmax_\Theta (\mathcal{L}(\Theta) )
+\end{align}
+On développe cette expression, dans le but d'obtenir une forme explicite dont la dérivée ne soit pas trop dure à calculer, et par indépendance des variables aléatoires $X_n, n \in \lb 1, N \rb$, on a:
+\begin{align}
+\Theta^*
+&= argmax_\Theta \left(\log(\mathcal{L}(\Theta) )   \right)
+\\
+&= argmax_\Theta \left( \log \PP(X=(\vec{x})_n | y_{(n)}, \Theta)        \right) \\
+&= argmax_\Theta \left( \log \prod_n^N \PP(X_n=\vec{x}_n | y_n=k, \Theta)        \right) \\
+&= argmax_\Theta \left(\sum_n^N \log \PP(X_n=\vec{x}_n | y_n=k, \Theta)        \right)
+\end{align}
+À ce stade on est bien obligés de choisir une forme explicite pour l'expression un peu abstraite $\PP(X_n=\vec{x}_n | y=k, \Theta)  $. C'est ce qu'on appelle un \textit{modèle} des données.
+% (Tous les choix faisant partie du modèle Bayésien, qui est l'objet de cet élément de cours).
+
+Les modèles Bayésiens \textbf{naïfs} correspondent à supposer que les features d'entrée sont \textbf{indépendantes} !
+C'est une énorme simplifcation ! Dans la vraie vie, dans les données que l'ont rencontre typiquement, il y a des corrélations entre les features (c'est ce qu'on voit par exemple avec la PCA). Concrètement, l'indépendance des features signifie que pour chaque sample $\vec{x}_n$ (point de donnée), chaque valeur $(x_n)_d$ est indépendante des autres (des autres $(x_n)_{d'}$, c.a.d. des autres pixels de la même image). On écrit donc:
+\begin{align}
+\PP(X_n=\vec{x}_n | y_n=k, \Theta) = \prod_d^D \PP(X_{n,d}= x_{n,d} | y_n=k, \Theta)
+\end{align}
+Il y a ici un petit abus de notation: on écrit $X_{n,d}= x_{n,d} $, le terme de gauche est la variable aléatoire $X_{n,d}$, le terme de droite est la valeur prise dans la réalisation de cette v.a., que l'on nomme aussi (c'est un léger abus), $x_{n,d}$.
+
+On note $\mathbb{1}_{y_n=k}$ la fonction qui vaut $1$ quand $y_n=k$ et $0$ le reste du temps.
+C'est un moyen rapide d'imposer $k=y_n$ partout dans l'équation.
+
+Dans le cas où le modèle de la distribution des features d'entrée est choisi Bernoulli, pour chaque feature, cela s'écrit, plus concrètement:
+$\PP(X_n=\vec{x}_n | y_n=k, \Theta) = \prod_d^D p_{k,d}^{x_{n,d}} (1-p_{k,d})^{(1-x_{n,d})} \mathbb{1}_{y_n=k} $.
+Ici les paramètres $\Theta$ sont, concrètement, les $p_{k,d}$.
+\begin{align}
+\Theta^*
+&= argmax_\Theta \left( \sum_n^N \log \Big( \prod_d^D p_{k,d}^{x_{n,d}} (1-p_{k,d})^{(1-x_{n,d})} \Big)\mathbb{1}_{y_n=k} \right) \\
+&= argmax_\Theta \left( \sum_n^N \sum_d^D \log \Big( p_{k,d}^{x_{n,d}} (1-p_{k,d})^{(1-x_{n,d})} \Big)\mathbb{1}_{y_n=k} \right) \\
+&= argmax_\Theta \left( \sum_n^N \sum_d^D \left[ x_{n,d}\log(p_{k,d}) + (1-x_{n,d})\log(1-p_{k,d}) \right] \mathbb{1}_{y_n=k} \right)
+\end{align}
+Pour trouver le maximum de cette fonction en $\Theta$, on dérive par rapport à $\Theta$ (ici, concrètement, $p_{k,d}$) et on cherche la valeur de $p_{k,d}$ telle que la dérivée soit nulle:
+\begin{align}
+0 &= \frac{\partial \log \mathcal{L}(\Theta)}{\partial p_{k,d}} \\
+&=\frac{\partial}{\partial p_{k,d}}
+\Big( \sum_n^N \sum_{d'=1}^D \left[ x_{n,d'}\log(p_{k,d'}) + (1-x_{n,d'})\log(1-p_{k,d'}) \right] \mathbb{1}_{y_n=k} \Big)
+\end{align}
+Or, la dérivée s'annule pour tout $d' \neq d$, donc:
+\begin{align}
+0 &=
+ \sum_n^N \left[ \frac{x_{n,d}}{p_{k,d}} - \frac{1-x_{n,d}}{1-p_{k,d}} \right] \mathbb{1}_{y_n=k} + \sum_{d'\neq d}^D (0)
+\end{align}
+\begin{align}
+0
+&= \sum_n^N  \left[ x_{n,d}(1-p_{k,d}) - (1-x_{n,d})p_{k,d} \right] \mathbb{1}_{y_n=k} \\
+&=
+\sum_n^N  \left[ x_{n,d} - p_{k,d} \right] \mathbb{1}_{y_n=k}
+\end{align}
+Ce qui donne, en distribuant la somme:
+\begin{align}
+\sum_n^N  p_{k,d} \mathbb{1}_{y_n=k}
+&=
+\sum_n^N x_{n,d}  \mathbb{1}_{y_n=k}\\
+p_{k,d} \sum_n^N  \mathbb{1}_{y_n=k}
+&=
+\sum_n^N x_{n,d}  \mathbb{1}_{y_n=k}\\
+p_{k,d}
+&=\frac{\sum_n^N x_{n,d}  \mathbb{1}_{y_n=k}}{\sum_n^N  \mathbb{1}_{y_n=k} }
+\end{align}
+Ce qui correspond à faire la moyenne des pixels numéro $d$ des images de classe $k$: en effet le dénominateur est simplement une façon de compter le nombre d'images dans la classe $k$.
+
+On peut remarquer que dans ce cas présent, on a pu faire les calculs exactement jusqu'au bout, et donc l'apprentissage se fait d'un coup, il n'y a pas d'itérations.
+
+On peut aussi remarquer que le résultat final est extrêmement simple: on fait simplement la moyenne empirique du pixel numéro $d$ de toutes les images étant de la classe $k$, et cela nous donne le paramètre $p_{kd}$ associé à ce pixel.
+Dans le cas où il y aurait des corrélations entre les pixels, modélisées par des lois choisies, le calcul peut vite devenir beaucoup plus complexe, voire infaisable analytiquement.
+
+\subsubsection{Fonction de décision}
+
+Dans cette partie, on va utiliser la formule de Bayes, dans une forme un peu généralisée:
+\begin{align}
+\PP(A|B,C)\PP(B|C) = \PP(A,B|C)
+\end{align}
+
+Pour un nouveau point de donnée (données de validation ou test), on connaît $\vec{x}$ et on souhaite prédire $y$.
+On connaît désormais les paramètres $\Theta$. On choisit la classe qui maximise la vraisemblance des données.
+
+Intuitivement, nous choisissons la classe $k$ comme celle qui correspond le plus probablement à l'image observée $\vec{x}$, en supposant qu'elle soit générée par les paramètres que nous avons appris (le vecteur $(p_k)$, de dimensions $D$).
+
+
+Mathématiquement, cela correspond à:
+\begin{align}
+k^*
+&= argmax_k( \PP (y=k| \vec{x}, \Theta ) ) \\
+&= argmax_k\left( \frac{\PP (y=k \cap \vec{x} | \Theta ) }{\PP (\vec{x} | \Theta)} \right) \\
+&= argmax_k\left( \frac{\PP (\vec{x}| y=k, \Theta   ) \PP(y=k|\Theta) }{\PP (\vec{x}| \Theta )} \right) \\
+&= argmax_k  \PP (\vec{x}| y=k, \Theta   ) \PP(y=k|\Theta)
+\end{align}
+La dernière ligne s'obtient en remarquant que le dénominateur ne dépend pas de $k$, donc il n'a pas d'importance pour déterminer l'emplacement du maximum. \\
+
+Le terme $ \PP (\vec{x}| y=k, \Theta   )$ a déjà été vu plus haut, il dépend du modèle choisi (Bernoulli Naïf, Gaussien Naïf ou autre).
+\\
+
+Le terme $\PP(y=k|\Theta) $ correspond à la probabilité d'observer une image de classe $k$, connaissant les paramètres appris $(\Theta)$ mais sans prendre connaissance de l'image, $\vec{x}$. C'est à dire en fait la probabilité qu'une image tirée au hasard soit de la classe $k$, parmi les images de \textit{l'ensemble d'apprentissage}. C'est donc une quantité ($K$ nombre réels) qu'il faut aussi \textit{apprendre} la fréquence d'apparition de la classe $k$:
+\begin{align}
+\pi_k = P_k = \PP(y=k|\Theta) = \frac{\sum_n^N \mathbb{1}_{y_n=k}  }{\sum_n^N 1}
+\end{align}
+On voit que cet ``apprentissage'' se fait d'un coup, sans itérations. C'est simplement le calcul de la fréquence de la classe $k$ dans le training set.
+Cette quantité est souvent notée $\pi_k$ ou $P_k$.
+
+Concrètement, on a donc:
+\begin{align}
+k^*
+&= argmax_k  \PP (\vec{x}| y=k, \Theta   ) \PP(y=k|\Theta) 
+= argmax_k  \big( 
+\prod_{d=1}^D p_{k,d}^{x_{d}} (1-p_{k,d})^{(1-x_{d})} 
+\frac{\sum_n^N \mathbb{1}_{y_n=k}  }{N} 
+\big)
+\end{align}
+Numériquement, il est préférable de maximiser le log de ce nombre, pour éviter les erreurs d'arrondis. Il faudra cependant penser à prendre garde à ce que aucun des $p_{k,d}$ ne soit nul. Si tel est le cas (et ce sera très probablement le cas, dans MNIST ou ce genre de dataset très simple), on doit corriger ce problème numérique,
+en remplacant:
+\begin{align}
+k^*
+&= \argmax_k  \left( \log
+\prod_{d=1}^D
+\big[p_{k,d}^{x_{d}} (1-p_{k,d})^{(1-x_{d})} 
+\big]
++ \log \frac{\sum_n^N \mathbb{1}_{y_n=k}  }{N} 
+\right)
+\\
+&= \argmax_k  \left( 
+\sum_{d=1}^D
+\big[
+(x_{d})\log(p_{k,d}) + (1-x_{d})\log(1-p_{k,d})  
+\big]
++ \log  \pi_k
+\right)
+\end{align}
+par
+\begin{align}
+k^* 
+&= \argmax_k  \left( 
+\sum_{d=1}^D
+\big[
+(x_{d})\log(p_{k,d}+\varepsilon) + (1-x_{d})\log(1-p_{k,d}+\varepsilon)  
+\big]
++ \log \pi_k
+\right)
+\end{align}
+Avec $\varepsilon =10^{-8}$ par exemple.
+
+\subsubsection{Pre-processing}
+
+Ici, on a utilisé un modèle de Bernoulli. Implicitement, cela suppose que les entrées sont à valeur dans l'ensemble $\{0,1\}$.
+Si on veut appliquer cet algo sur des données (images en noir et blanc), que faudra-t il faire comme pré-processing ?
+
+
+\subsubsection{Prior}
+
+Imaginez qu'on vous donne un ensemble d'apprentissage déséquilbré, où une classe est surreprésentée.
+Supposez que vous savez que dans les données, en général (donc, dans l'ensemble de test, en particulier), les données sont réparties de manière égale entre toutes les classes. Que pouvez-vous changer dans la fonction de décision, pour en tenir compte ?
+Il s'agit d'un exemple très simple de \textit{prior}.
+
+
+
+\subsubsection{Modèle Gaussien Naïf}
+
+Exercice:
+Calculer les équations d'apprentissage pour le modèle gaussien naïf.
+
+
+\subsubsection{Modèle Gaussien, mais pas si naïf}
+
+En gros: et si on mettait un modèle avec une matrice de covariance non diagnonale entre les features ?
+
+% TODO (il y a une version en anglais, énoncé dans un TD/TP)
+
+
+% (c'est une forme de régularisation, on le verra ensemble en cours).
+
+%à suivre, donc ...
+%
+%\subsection{Régularisation et sa justification - maximum a posteriori}
+%
+%Intuitivement: si certains pixels sont toujours éteints pour une classe donnée, dans l'ensemble d'apprentissage, alors on aura $p_{k,d}=0$. Si ce même pixel est allumé ($x_d=1$) dans une image de test, on aura un terme du type $p_{k,d}^{x_d}$ ou $x_d \log(p_{k,d})$, ce qui pose de gros problèmes si $p_{k,d}=0$.
+%
+%De même pour un pixel toujours allumé dans l'ensemble d'entrainement, on aura un terme du type $(1-p_{k,d})^{1-x_d}$ ou $(1-x_d) \log(1-p_{k,d})$, ce qui pose problème quand $p_{k,d}=1$ et $x_d=0$.
+%
+%Une astuce numérique consiste à remplacer
+%\begin{align}
+%k^*
+%&= argmax_k  \big( (x_{n,d})\log(p_{k,d}) + (1-x_{n,d})\log(1-p_{k,d})  + \log \PP(y=k) \big)
+%\end{align}
+%par :
+%\begin{align}
+%k^*
+%&= argmax_k  \big( (x_{n,d})\log(p_{k,d}+10^{-8}) + (1-x_{n,d})\log(1-p_{k,d}+10^{-8})  + \log \PP(y=k) \big)
+%\end{align}
+%Ça marche, mais il serait frustrant de ne pas savoir pourquoi.
+%
+%En réalité, cette `astuce' peut être justifiée par un calcul probabiliste.
+%En effet on  peut considérer qu'avant même de voir les données, nous avons un avis \textit{a priori} sur les paramètres, une sorte d'intuition, une opinion sur leur distribution.
+%Concrètement, on peut imaginer que par défaut, nous pensons que les paramètres sont tous égaux à $0.5$
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
