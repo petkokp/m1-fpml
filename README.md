@@ -11,6 +11,21 @@ Uncomfortable with numpy ? Try these exercises:
 
 https://www.machinelearningplus.com/python/101-numpy-exercises-python/
 
+# To prepare for the exam:
+- remember that you are allowed for 6 pages (3 sheets x2 sides = 6 pages) of your own personal (typically handwritten) notes.
+- annals of past exams (and sometimes corrections) are available on the gilab:2022 is relevant and has a correction.2021 is relevant but without correction.2020 is relevant, but less than the others, and there is no formal correction, but the papers of excellent students whom basically did everything correctly, are available.
+
+- if you feel lost with the maths, in one or several subjects:
+    - The Bishop book is my main reference:https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/  (free pdf !)
+    - At the end of my slides (available on the gitlab), each time or almost, the last page (or previous-to-last) contains precise references (like a small range of pages from a book, or a precise web reference) that are helpful to understand that given lecture (the one presented in these slides).
+    - For Algebra: Try the Bishop book, appendix C
+    - For derivatives: Try the Bishop book, Appendix D
+    - For probabilities (Very very basic stuff), you can try the Bishop, pages 12-20 (section 1.2 Probability Theory - the first few subsections).
+
+- if you want an intro on lagrange multipliers: Try his appendix E
+
+
+
 
 # Hint from a student from previous year:
 "This class is one of the basics (with Applied Stats for instance) that really teach you what you will need later." So, spending time studying this class is a good investment for later: either you study now and do good at the exam, or you'll have to study the same stuff later in the year for the following classes.
@@ -22,6 +37,7 @@ https://www.machinelearningplus.com/python/101-numpy-exercises-python/
 
 **PRE1 and PRE2 as prerequisites, and PRE4 is strongly recommended**. Note that **PRE1 and PRE2 are mandatory, i.e. you must attend them to be allowed to follow TC0/FPML**, except if you can argue that you are already very fluent in statistics (PRE1) and linear algebra (PRE2) (in that case, e-mail me).
 **This class** (or an equivalent) **is a prerequisite for almost all other [AI] classes**.
+
 
 # What we did in class
 
@@ -94,6 +110,7 @@ Lecture:
 
 Tutorial:
 - feature maps: playing around
+- some attacked the PCA (see 6.3-PCA-from-scratch+overfitting-correction.ipynb) first. Especially the part where you re-code PCA just from numpy is great to do by yourself. Try it if you haven't ! (it's good training for the exam)
 - experiment with the regularization notebooks (from session 3)
 - bonus: double descent?
 
@@ -106,8 +123,7 @@ Lecture:
 
 
 Tutorial:
-- some attacked the PCA (see 6.3-PCA-from-scratch+overfitting-correction.ipynb) first. Especially the part where you re-code PCA just from numpy is great to do by yourself. Try it if you haven't ! (it's good training for the exam)
-- some started with the SVM part (6.2-SVM-showcase+exercises+corrections.ipynb), which has not a lot of hard coding to it, but allows to see SVMs and Kernels at work.
+- We did (6.2-SVM-showcase+exercises+corrections.ipynb), which has not a lot of hard coding to it, but allows to see SVMs and Kernels at work.
 
 # informations:
 
