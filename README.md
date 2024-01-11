@@ -2,6 +2,13 @@
 
 Gitlab for the course Fundamental Principles of Machine Learning (FPML or TC0) in the CS Masters (M1 year), in the track *Artificial Intelligence* of the Paris Saclay University
 
+## Survey
+Please answer the survey about the FPML class:
+
+https://admin-sphinx.universite-paris-saclay.fr/v4/s/tgxas0
+
+-------------
+
 The e-campus address is (for the quizz):
 
 https://ecampus.paris-saclay.fr/course/view.php?id=115777#section-7
