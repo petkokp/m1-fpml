@@ -2,6 +2,23 @@
 
 Gitlab for the course Fundamental Principles of Machine Learning (FPML or TC0) in the CS Masters (M1 year), in the track *Artificial Intelligence* of the Paris Saclay University
 
+## session 2 - July 11th, 2024
+
+Dear students,
+this is to let you know that the session 2 exam of FPML will take place on Thursday the 11th of July, at 13:30, at PUIO building (room to be confirmed later).
+
+The exam will be in written form, it will last 2h30 (13:30 -> 16:00).
+The content and expected knowledge will be the same as in the first session, i.e. the program covers all that we saw in class.
+As in 1st session, you are allowed to bring up to 6 pages of handwritten notes (3 sheets of paper, 2 sided-writing).
+
+As you already know, all the class material, including previous years' exams and corrections, are available at https://gitlab.inria.fr/flandes/fpml
+
+The subject will be in English, but you are allowed to answer in French.
+
+Best,
+François Landes
+
+
 ## Survey
 Please answer the survey about the FPML class:
 
