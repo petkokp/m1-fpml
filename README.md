@@ -5,7 +5,7 @@ Gitlab for the course Fundamental Principles of Machine Learning (FPML or TC0) i
 ## session 2 - July 11th, 2024
 
 Dear students,
-this is to let you know that the session 2 exam of FPML will take place on Thursday the 11th of July, at 13:30, at PUIO building (room to be confirmed later).
+this is to let you know that the session 2 exam of FPML will take place on Thursday the 11th of July, at 13:30, at PUIO building (**room: C207**).
 
 The exam will be in written form, it will last 2h30 (13:30 -> 16:00).
 The content and expected knowledge will be the same as in the first session, i.e. the program covers all that we saw in class.
