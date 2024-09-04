@@ -2,30 +2,8 @@
 
 Gitlab for the course Foundational Principles of Machine Learning (FPML or T2A) in the CS Masters (M1 year), in the track *Artificial Intelligence* of the Paris Saclay University
 
-
-The exam will be in written form, it will last 2h30 (13:30 -> 16:00).
-The content and expected knowledge will be the same as in the first session, i.e. the program covers all that we saw in class.
-As in 1st session, you are allowed to bring up to 6 pages of handwritten notes (3 sheets of paper, 2 sided-writing).
-
-As you already know, all the class material, including previous years' exams and corrections, are available at https://gitlab.inria.fr/flandes/fpml
-
-The subject will be in English, but you are allowed to answer in French.
-
-Best,
-François Landes
-
-
-## Survey
-Please answer the survey about the FPML class:
-
-https://admin-sphinx.universite-paris-saclay.fr/v4/s/tgxas0
-
--------------
-
 The e-campus address is (for the quizz):
-
-https://ecampus.paris-saclay.fr/course/view.php?id=115777#section-7
-
+### TODO
 
 Uncomfortable with numpy ? Try these exercises:
 
@@ -33,7 +11,7 @@ https://www.machinelearningplus.com/python/101-numpy-exercises-python/
 
 # To prepare for the exam:
 - remember that you are allowed for 6 pages (3 sheets x2 sides = 6 pages) of your own personal (typically handwritten) notes.
-- annals of past exams (and sometimes corrections) are available on the gilab:2022 is relevant and has a correction.2021 is relevant but without correction.2020 is relevant, but less than the others, and there is no formal correction, but the papers of excellent students whom basically did everything correctly, are available.
+- annals of past exams (and sometimes corrections) are available on the gilab:2023 and 2022 are relevant and have a corrections. 2021 is relevant but without correction. 2020 is relevant, but less than the others, and there is no formal correction, but the papers of excellent students whom basically did everything correctly, are available.
 
 - if you feel lost with the maths, in one or several subjects:
     - The Bishop book is my main reference:https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/  (free pdf !)
@@ -47,11 +25,10 @@ https://www.machinelearningplus.com/python/101-numpy-exercises-python/
 
 
 
-# Hint from a student from previous year:
+# Hint from a student from a previous year: (authentic quote)
 "This class is one of the basics (with Applied Stats for instance) that really teach you what you will need later." So, spending time studying this class is a good investment for later: either you study now and do good at the exam, or you'll have to study the same stuff later in the year for the following classes.
 
 "study regularly" -> very good idea.
-
 
 # IMPORTANT: PRE-REQUISITES !
 
@@ -59,7 +36,9 @@ https://www.machinelearningplus.com/python/101-numpy-exercises-python/
 **This class** (or an equivalent) **is a prerequisite for almost all other [AI] classes**.
 
 
-# What we did in class
+# What we will do/did in class
+
+I keep last year's notes as a guide for waht we aim to do, and attempt to update it with what we actually did this year, as the year goes:
 
 ## session 1 (2023) - GD+Linear Regression (+organizational stuff)
 
