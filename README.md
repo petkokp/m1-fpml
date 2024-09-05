@@ -2,6 +2,10 @@
 
 Gitlab for the course Foundational Principles of Machine Learning (FPML or T2A) in the CS Masters (M1 year), in the track *Artificial Intelligence* of the Paris Saclay University
 
+Lectures in room B108 at 9:00
+
+TP in rooms E203 and E204 at ~10:45
+
 The e-campus address is (for the quizz):
 ### TODO
 
