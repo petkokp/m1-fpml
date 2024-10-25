@@ -7,7 +7,9 @@ Lectures in room B108 at 9:00
 TP in rooms E203 and E204 at ~10:45
 
 The e-campus address is (for the quizz):
-### TODO
+
+https://ecampus.paris-saclay.fr/course/view.php?id=154572#section-7
+
 
 Uncomfortable with numpy ? Try these exercises:
 
@@ -15,7 +17,7 @@ https://www.machinelearningplus.com/python/101-numpy-exercises-python/
 
 # To prepare for the exam:
 - remember that you are allowed for 6 pages (3 sheets x2 sides = 6 pages) of your own personal (typically handwritten) notes.
-- annals of past exams (and sometimes corrections) are available on the gilab:2023 and 2022 are relevant and have a corrections. 2021 is relevant but without correction. 2020 is relevant, but less than the others, and there is no formal correction, but the papers of excellent students whom basically did everything correctly, are available.
+- annals of past exams (and sometimes corrections) are available on the gitlab: 2023 and 2022 are relevant and have a corrections. 2021 is relevant but without correction. 2020 is relevant, but less than the others, and there is no formal correction, but the papers of excellent students whom basically did everything correctly, are available.
 
 - if you feel lost with the maths, in one or several subjects:
     - The Bishop book is my main reference:https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/  (free pdf !)
@@ -44,7 +46,7 @@ https://www.machinelearningplus.com/python/101-numpy-exercises-python/
 
 I keep last year's notes as a guide for waht we aim to do, and attempt to update it with what we actually did this year, as the year goes:
 
-## session 1 (2023) - GD+Linear Regression (+organizational stuff)
+## session 1  - GD+Linear Regression (+organizational stuff)
 
 During the first session, we did (i give the paths to files from the gitlab):
 
@@ -60,11 +62,8 @@ In tutorial, we did (may depend slightly on the group you are in):
 - NOTE: sorry I did not introduce the train/test split in the Lecture, while it's mentionned in the TP (tutorials). This will be explained in depth later during the lecture.
 
 
-----------------
 
-# Previous year's sechedule
-
-## session 2 (2022) - Perceptron
+## session 2  - Perceptron
 
 Lecture: we covered 2-Perceptron.pdf until page 16 included.
 
