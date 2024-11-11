@@ -10,6 +10,10 @@ The e-campus address is (for the quizz):
 
 https://ecampus.paris-saclay.fr/course/view.php?id=154572#section-7
 
+# Warning: please check that you can access the quizz on ecampus !!
+https://ecampus.paris-saclay.fr/course/view.php?id=154572#section-7
+
+# If you don't have access to the quizz: email me (and tell me your @etu-upsaclay.fr address)
 
 Uncomfortable with numpy ? Try these exercises:
 
