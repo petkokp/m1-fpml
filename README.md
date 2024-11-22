@@ -10,28 +10,16 @@ The e-campus address is (for the quizz):
 
 https://ecampus.paris-saclay.fr/course/view.php?id=154572#section-7
 
-# REMOTE CLASS - Nov 22 - class in remote only !!
+# Recordings of class of Nov 22nd.
 
-Dear students
-(I expect all students are now in the list - maths&AI students, please check you are all registered ?),
+The quiz about session 2 and the quiz about session 3 will happen next week (during session 4)
 
-tomorrow the class of FPML will be held online.
-The lecture will occur at 9:00, and the tutorial around 10:45
-A quiz (about session 1 = lecture1 + tutorial1) will be held at 12h30, to not accumulate lateness in quiz sessions.
-The quiz about session 2 the quiz about session 3 will happen next week.
+For the Lecture, the recording is here:
+https://bbb.lisn.upsaclay.fr/playback/presentation/2.3/c04cf5992a13172b198a992642da0974a1efe3c5-1732261773161
 
-For the Lecture, the link is :
-https://bbb.lisn.upsaclay.fr/b/fra-c7e-tmk-oeb
+For the tutorial, the recording is here:
+https://bbb.lisn.upsaclay.fr/playback/presentation/2.3/26915e382e1b834d5fee9599dfd68479e66ef481-1732268641249
 
-For the tutorials, there will be one group here:
-https://bbb.lisn.upsaclay.fr/b/fra-2f5-8b7-9de
-
-and the second group, with Nicolas, here:
-https://bbb.lisn.upsaclay.fr/b/fra-p3e-mhl-27k
-
-See you tomorrow,
-Stay warm,
-François Landes
 
 
 # Warning: please check that you can access the quizz on ecampus !!
