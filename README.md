@@ -21,7 +21,6 @@ For the tutorial, the recording is here:
 https://bbb.lisn.upsaclay.fr/playback/presentation/2.3/26915e382e1b834d5fee9599dfd68479e66ef481-1732268641249
 
 
-
 # Warning: please check that you can access the quizz on ecampus !!
 https://ecampus.paris-saclay.fr/course/view.php?id=154572#section-7
 
