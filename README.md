@@ -110,37 +110,36 @@ Lecture:
 - MAP (Maximum A Posteriori), in general (for any statistical inference)
 - Ridge Regression interpreted as a prior on weights (MAP !)
 - Elastic Net, Graphical Models : 2 words
-And, taking from the folder "optional material from previous or missed sessions":
-- multi-class classification: complete the last bits of Lecture1/2, that we forgot to cover ! (`2-Multi-class-classification-end.pdf`)
 
 Tutorial:
 - from TD-regularizations.pdf, 3.4.a, 3.4.b Maximum A Posteriori (in general) and 3.5.b Maximum A Posteriori (for regularization) as well (the (3.5.a) was covered during the Lecture)
-- (we did not have the tie for this) TP5.1-coding your own Lasso-subject.ipynb -> code it ! Here we use Objected Oriented Programming, i.e. nice lcasses in numpy, sklearn-style
+- [We did not have the time for this:]
+    - TP5.1-coding your own Lasso-subject.ipynb -> code it ! Here we use Objected Oriented Programming, i.e. nice lcasses in numpy, sklearn-style
 
 ## session 5 - dimensional reduction (PCA) or expansion (feature maps)
 
 Lecture:
+- Feature maps
 - PCA from scratch + what PCA is about
-- feature maps (`3-2FeatureMaps.pdf`)
-- catch up on multi-class classification, if not done already
-
+And, to complete material we did not cover from session 2:
+- multi-class classification: complete the last bits of Lecture1/2, that we forgot to cover ! (`2-Multi-class-classification-end.pdf`)
 
 Tutorial:
-- feature maps: playing around
-- some attacked the PCA (see 6.3-PCA-from-scratch+overfitting-correction.ipynb) first. Especially the part where you re-code PCA just from numpy is great to do by yourself. Try it if you haven't ! (it's good training for the exam)
-- experiment with the regularization notebooks (from session 3)
-- bonus: double descent?
+- feature maps: playing around (`TP5.1-FeatureMaps.ipynb`)
+- Lasso: do or finish the notebook `TP5.1-coding your own Lasso-subject.ipynb`
+- [try it at home] Experiment with the regularization notebooks (from session 3)
+- [bonus: double descent]
 
 ## session 6
 
 Lecture:
-- PCA
+- [PCA] (should already be covered)
 - Kernels
 - SVM
 
-
 Tutorial:
-- We did (6.2-SVM-showcase+exercises+corrections.ipynb), which has not a lot of hard coding to it, but allows to see SVMs and Kernels at work.
+- Let's start with the more interesting: `TP6.1-PCA-from-scratch+overfitting.ipynb` -- Especially the part where you re-code PCA just from numpy is great to do by yourself (it's a good training for the exam)
+- We did (last years) `6.2-SVM-showcase+exercises+corrections.ipynb`, which does not have a lot of hard coding to it, but allows to see SVMs and Kernels at work.
 
 # informations:
 
