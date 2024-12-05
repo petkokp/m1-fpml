@@ -125,6 +125,7 @@ And, to complete material we did not cover from session 2:
 - multi-class classification: complete the last bits of Lecture1/2, that we forgot to cover ! (`2-Multi-class-classification-end.pdf`)
 
 Tutorial:
+- detailed correction of exercise 3.5.b
 - feature maps: playing around (`TP5.1-FeatureMaps.ipynb`)
 - Lasso: do or finish the notebook `TP5.1-coding your own Lasso-subject.ipynb`
 - [try it at home] Experiment with the regularization notebooks (from session 3)
