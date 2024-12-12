@@ -121,8 +121,6 @@ Tutorial:
 Lecture:
 - Feature maps
 - PCA from scratch + what PCA is about
-And, to complete material we did not cover from session 2:
-- multi-class classification: complete the last bits of Lecture1/2, that we forgot to cover ! (`2-Multi-class-classification-end.pdf`)
 
 Tutorial:
 - detailed correction of exercise 3.5.b
@@ -134,9 +132,10 @@ Tutorial:
 ## session 6
 
 Lecture:
-- [PCA] (should already be covered)
 - Kernels
 - SVM
+And, to complete material we did not cover from session 2:
+- multi-class classification: complete the last bits of Lecture1/2, that we forgot to cover ! (`2-Multi-class-classification-end.pdf`)
 
 Tutorial:
 - Let's start with the more interesting: `TP6.1-PCA-from-scratch+overfitting.ipynb` -- Especially the part where you re-code PCA just from numpy is great to do by yourself (it's a good training for the exam)
